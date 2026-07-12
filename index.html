@@ -48,7 +48,6 @@
         .btn-guru-upload { background: linear-gradient(135deg, #66BB6A, #43A047); color: white; border: none; padding: 10px 20px; font-size: 14px; font-weight: 800; border-radius: 14px; cursor: pointer; font-family: 'Nunito', sans-serif; box-shadow: 0 4px 12px rgba(67,160,71,0.3); }
         .hidden { display: none !important; }
 
-        /* SLIDESHOW MARQUEE */
         .slideshow-container { position: relative; width: 100%; height: 200px; background: #f0f0f0; border-radius: 18px; overflow: hidden; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .slide-track { display: flex; height: 100%; width: max-content; animation: scroll-left 20s linear infinite; }
         .slide-track:hover { animation-play-state: paused; }
@@ -60,7 +59,6 @@
         .no-upload-msg { text-align: center; padding: 40px 20px; color: #999; font-weight: 700; }
         .no-upload-msg span { font-size: 40px; display: block; margin-bottom: 10px; }
 
-        /* GURU PANEL */
         .guru-stat { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .guru-stat-box { flex: 1; min-width: 70px; background: white; padding: 12px 8px; border-radius: 18px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 2px solid #eee; }
         .guru-stat-box h3 { font-size: 20px; color: #FF6B6B; margin: 0; }
@@ -91,13 +89,13 @@
         .btn-kirim { background: linear-gradient(135deg, #1565C0, #42A5F5); color: white; box-shadow: 0 3px 8px rgba(21,101,192,0.25); }
         .btn-hapus { background: #FFEBEE; color: #D32F2F; }
         .btn-cetak-id { background: linear-gradient(135deg, #6A1B9A, #AB47BC); color: white; box-shadow: 0 3px 8px rgba(106,27,154,0.25); }
+        .btn-upload-foto { background: linear-gradient(135deg, #00838F, #26C6DA); color: white; box-shadow: 0 3px 8px rgba(0,131,143,0.25); }
         .btn-action:hover { transform: translateY(-1px); filter: brightness(1.05); }
         .btn-action:disabled { background: #eee; color: #aaa; box-shadow: none; cursor: not-allowed; transform: none; }
         .btn-kirim-bulk { background: linear-gradient(135deg, #0D47A1, #1976D2); color: white; border: none; width: 100%; padding: 16px; font-size: 15px; font-weight: 800; border-radius: 16px; margin-top: 12px; cursor: pointer; font-family: 'Nunito', sans-serif; box-shadow: 0 6px 20px rgba(13,71,161,0.3); transition: 0.25s; }
         .btn-kirim-bulk:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(13,71,161,0.4); }
         .btn-kirim-bulk:disabled { background: #ccc; box-shadow: none; cursor: not-allowed; transform: none; }
 
-        /* MODAL */
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 16px; opacity: 0; visibility: hidden; transition: 0.3s; backdrop-filter: blur(4px); }
         .modal-overlay.show { opacity: 1; visibility: visible; }
         .modal-box { background: white; border-radius: 24px; padding: 28px 24px; width: 100%; max-width: 440px; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2); transform: scale(0.9) translateY(20px); transition: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative; }
@@ -143,7 +141,6 @@
         .confetti-piece { position: fixed; width: 10px; height: 10px; border-radius: 2px; z-index: 999; pointer-events: none; animation: confetti-fall 3s ease-out forwards; }
         @keyframes confetti-fall { 0%{opacity:1;transform:translateY(0) rotate(0deg)} 100%{opacity:0;transform:translateY(100vh) rotate(720deg)} }
         
-        /* SISWA NILAI BADGE */
         .nilai-siswa-badge { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, #FF6B6B, #FF8E53); color: white; padding: 8px 18px; border-radius: 20px; font-size: 14px; font-weight: 900; margin-top: 10px; box-shadow: 0 4px 12px rgba(255,107,107,0.3); }
         .nilai-siswa-badge.belum { background: #E0E0E0; color: #888; box-shadow: none; }
         .nilai-final-box { background: white; border: 3px solid #FFD166; border-radius: 20px; padding: 20px; margin-top: 16px; text-align: center; animation: fadeSlideIn 0.5s ease; }
@@ -157,59 +154,77 @@
         .filter-hari-btn { background: white; border: 2px solid #E8E8E8; padding: 6px 14px; font-size: 12px; font-weight: 800; cursor: pointer; border-radius: 10px; font-family: 'Nunito', sans-serif; transition: 0.2s; color: #888; }
         .filter-hari-btn.active { background: linear-gradient(135deg, #FF6B6B, #FF8E53); color: white; border-color: transparent; }
 
+        /* Upload Foto Profil */
+        .foto-profil-area { text-align: center; margin: 16px 0; }
+        .foto-profil-circle { width: 110px; height: 110px; border-radius: 50%; border: 4px solid #FFD166; overflow: hidden; margin: 0 auto; background: linear-gradient(135deg, #FFF3E0, #FFE0B2); display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 6px 20px rgba(255,209,102,0.3); }
+        .foto-profil-circle img { width: 100%; height: 100%; object-fit: cover; }
+        .foto-profil-circle .placeholder-foto { font-size: 44px; }
+        .foto-profil-label { display: inline-block; margin-top: 10px; padding: 8px 20px; background: linear-gradient(135deg, #00838F, #26C6DA); color: white; border-radius: 14px; font-size: 12px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 12px rgba(0,131,143,0.3); transition: 0.2s; }
+        .foto-profil-label:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,131,143,0.4); }
+        .foto-profil-hint { font-size: 11px; color: #aaa; font-weight: 600; margin-top: 6px; }
+
         /* ========== CETAK ID SISWA ========== */
-        .btn-cetak-id-card {
-            background: linear-gradient(135deg, #6A1B9A, #AB47BC);
-            color: white;
-            border: none;
-            padding: 14px 24px;
-            font-size: 15px;
-            font-weight: 800;
-            border-radius: 16px;
-            cursor: pointer;
-            font-family: 'Nunito', sans-serif;
-            box-shadow: 0 6px 20px rgba(106,27,154,0.35);
-            transition: 0.25s;
-            width: 100%;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
+        .btn-cetak-id-card { background: linear-gradient(135deg, #6A1B9A, #AB47BC); color: white; border: none; padding: 14px 24px; font-size: 15px; font-weight: 800; border-radius: 16px; cursor: pointer; font-family: 'Nunito', sans-serif; box-shadow: 0 6px 20px rgba(106,27,154,0.35); transition: 0.25s; width: 100%; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-cetak-id-card:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(106,27,154,0.45); }
 
-        /* Modal cetak ID yang lebih lebar */
         .modal-cetak-id .modal-box { max-width: 520px; }
-        .btn-print-now {
-            background: linear-gradient(135deg, #1565C0, #42A5F5);
-            color: white; border: none; width: 100%; padding: 15px;
-            font-size: 15px; font-weight: 800; border-radius: 16px; margin-top: 16px;
-            cursor: pointer; font-family: 'Nunito', sans-serif;
-            box-shadow: 0 6px 20px rgba(21,101,192,0.3); transition: 0.25s;
-        }
+        .btn-print-now { background: linear-gradient(135deg, #1565C0, #42A5F5); color: white; border: none; width: 100%; padding: 15px; font-size: 15px; font-weight: 800; border-radius: 16px; margin-top: 16px; cursor: pointer; font-family: 'Nunito', sans-serif; box-shadow: 0 6px 20px rgba(21,101,192,0.3); transition: 0.25s; }
         .btn-print-now:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(21,101,192,0.4); }
-        .btn-print-all-ids {
-            background: linear-gradient(135deg, #E65100, #FF8E53);
-            color: white; border: none; width: 100%; padding: 15px;
-            font-size: 14px; font-weight: 800; border-radius: 16px; margin-top: 10px;
-            cursor: pointer; font-family: 'Nunito', sans-serif;
-            box-shadow: 0 6px 20px rgba(230,81,0,0.3); transition: 0.25s;
-        }
+        .btn-print-all-ids { background: linear-gradient(135deg, #E65100, #FF8E53); color: white; border: none; width: 100%; padding: 15px; font-size: 14px; font-weight: 800; border-radius: 16px; margin-top: 10px; cursor: pointer; font-family: 'Nunito', sans-serif; box-shadow: 0 6px 20px rgba(230,81,0,0.3); transition: 0.25s; }
         .btn-print-all-ids:hover { transform: translateY(-2px); }
+        #idCardPreviewContainer { display: flex; justify-content: center; margin: 16px 0; }
 
-        /* Area preview ID card dalam modal */
-        #idCardPreviewContainer {
-            display: flex; justify-content: center; margin: 16px 0;
-        }
-
-        /* ========== PRINT STYLES ========== */
+        /* ========== PRINT STYLES - PERBAIKAN UTAMA ========== */
         @media print {
-            body { background: white !important; }
-            .header, .container, .deco, .toast, .modal-overlay, .no-print { display: none !important; }
-            #printAreaId { display: block !important; position: static !important; }
-        }
+            /* Sembunyikan SEMUA elemen selain area cetak */
+            html, body { margin: 0 !important; padding: 0 !important; background: white !important; }
+            .header, .container, .deco, .toast, .modal-overlay, .no-print,
+            #idCardPreviewContainer, .btn-print-now, .modal-close,
+            .modal-box h2, .modal-box .modal-subtitle { display: none !important; }
+            
+            /* Tampilkan area print dengan posisi statis */
+            #printAreaId {
+                display: block !important;
+                position: static !important;
+                width: 100% !important;
+                height: auto !important;
+                overflow: visible !important;
+                margin: 0 !important;
+                padding: 10mm 0 !important;
+                background: white !important;
+            }
+            
+            /* Pastikan kartu tercetak sempurna */
+            #printAreaId > div { display: flex !important; flex-wrap: wrap !important; justify-content: center !important; gap: 8mm !important; }
+            
+            /* Header judul halaman cetak */
+            #printAreaId .print-header { 
+                display: block !important; 
+                text-align: center !important; 
+                margin-bottom: 5mm !important;
+                font-family: 'Nunito', Arial, sans-serif !important;
+            }
+            #printAreaId .print-header h2 { 
+                font-size: 16pt !important; 
+                color: #333 !important; 
+                margin: 0 !important;
+            }
+            #printAreaId .print-header p { 
+                font-size: 10pt !important; 
+                color: #666 !important; 
+                margin: 2mm 0 0 0 !important;
+            }
 
+            /* Kartu ID harus terlihat */
+            #printAreaId .id-card-wrapper {
+                display: inline-block !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+            }
+        }
+        
         #printAreaId { display: none; }
     </style>
 </head>
@@ -217,7 +232,7 @@
 
     <div class="deco">⭐</div><div class="deco">🌈</div><div class="deco">🌻</div><div class="deco">🦋</div><div class="deco">📚</div><div class="deco">🎨</div>
 
-    <div class="header">
+    <div class="header no-print">
         <h1>🏫 SDN MAJALENGKA WETAN VIII</h1>
         <p>Portal E-MPLS Ramah ✦ Tahun Ajaran 2026/2027</p>
         <div class="role-switch">
@@ -274,10 +289,23 @@
                 <h2 style="color:white;">Hai, <span id="namaTampilSiswa"></span>! 🎉</h2>
                 <div style="background:white; color:#00897B; padding:6px 20px; border-radius:30px; display:inline-block; font-weight:800; font-size:13px;" id="badgeKelasSiswa"></div>
                 <div id="nilaiTotalSiswa" style="margin-top:10px;"></div>
-                <p style="margin-top:10px; font-size:12.5px; opacity:0.9;">Lihat foto kegiatan dan centang yang sudah kamu ikuti!</p>
             </div>
-            <!-- Tombol lihat ID card siswa -->
+
+            <!-- Upload Foto Profil Siswa -->
+            <div class="card">
+                <h2>📸 Foto Profil untuk ID Card</h2>
+                <div class="foto-profil-area">
+                    <div class="foto-profil-circle" id="fotoProfilCircle">
+                        <span class="placeholder-foto">🧑</span>
+                    </div>
+                    <label class="foto-profil-label" for="inputFotoProfil">📷 Pilih Foto</label>
+                    <input type="file" id="inputFotoProfil" accept="image/*" style="display:none" onchange="uploadFotoProfilSiswa(event)">
+                    <div class="foto-profil-hint">Foto akan tampil di ID Card MPLS-mu</div>
+                </div>
+            </div>
+
             <button class="btn-cetak-id-card" onclick="lihatIdCardSiswa()">🪪 Lihat & Cetak ID Card MPLS</button>
+
             <div class="nav-hari" id="navSiswa">
                 <button class="active" onclick="gantiHariSiswa(event, 'shari1')">☀️ Hari 1</button>
                 <button onclick="gantiHariSiswa(event, 'shari2')">🌈 Hari 2</button>
@@ -306,7 +334,7 @@
                 <div class="guru-stat-box"><h3 id="totalTerkirim">0</h3><p>Nilai Terkirim</p></div>
             </div>
 
-            <!-- UPLOAD FOTO -->
+            <!-- UPLOAD FOTO KEGIATAN -->
             <div class="card">
                 <h2>📤 Upload Foto & Kegiatan</h2>
                 <div class="nilai-row">
@@ -320,7 +348,7 @@
                 <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
                     <span>📷</span>
                     <p style="font-weight:800; color:#555;">Klik atau Seret Foto ke Sini</p>
-                    <p style="font-size:11px; color:#999; margin-top:4px;">Bisa upload berkali-kali, foto akan bertambah (Maks 4 per upload)</p>
+                    <p style="font-size:11px; color:#999; margin-top:4px;">Bisa upload berkali-kali (Maks 4 per upload)</p>
                 </div>
                 <input type="file" id="fileInput" accept="image/*" multiple style="display:none" onchange="previewFiles(event)">
                 <div class="upload-preview" id="uploadPreview"></div>
@@ -340,7 +368,6 @@
                 </div>
                 <div id="listSiswaGuru" style="margin-top:10px;"></div>
                 <button class="btn-kirim-bulk" id="btnKirimBulky" onclick="kirimSemuaNilai()">📧 KIRIM NILAI AKHIR KE SEMUA SISWA YANG SUDAH DINILAI</button>
-                <!-- Tombol cetak semua ID -->
                 <button class="btn-print-all-ids" onclick="cetakSemuaIdCard()">🖨️ CETAK SEMUA ID CARD SISWA SEKALIGUS</button>
             </div>
             <button class="btn-secondary" onclick="logoutGuru()">🔓 Keluar</button>
@@ -382,6 +409,23 @@
         </div>
     </div>
 
+    <!-- MODAL UPLOAD FOTO GURU UNTUK SISWA -->
+    <div class="modal-overlay" id="modalUploadFotoSiswa">
+        <div class="modal-box">
+            <button class="modal-close" onclick="tutupModalUploadFoto()">✕</button>
+            <h2>📸 Upload Foto Siswa</h2>
+            <p class="modal-subtitle" id="modalNamaSiswaFoto"></p>
+            <div class="foto-profil-area">
+                <div class="foto-profil-circle" id="fotoProfilCircleGuru" style="width:140px;height:140px;">
+                    <span class="placeholder-foto" style="font-size:50px;">🧑</span>
+                </div>
+            </div>
+            <label class="foto-profil-label" style="display:block;text-align:center;margin:10px 0;cursor:pointer;" for="inputFotoProfilGuru">📷 Pilih Foto untuk Siswa Ini</label>
+            <input type="file" id="inputFotoProfilGuru" accept="image/*" style="display:none" onchange="uploadFotoProfilGuru(event)">
+            <p style="font-size:11px;color:#aaa;font-weight:600;text-align:center;">Foto akan otomatis tampil di ID Card siswa</p>
+        </div>
+    </div>
+
     <!-- AREA PRINT TERSEMBUNYI -->
     <div id="printAreaId"></div>
 
@@ -396,7 +440,8 @@
         let selectedFiles = [];
         let currentNilaiDocId = null;
         let currentFilterNilai = 'semua';
-        let dataSiswaCache = []; // Cache daftar siswa untuk cetak massal
+        let dataSiswaCache = [];
+        let currentUploadFotoDocId = null;
 
         const kegiatanMPLS = {
             1: { judul: "Fondasi Transisi & Kemandirian", warna: "#FF6B6B", 1:[{w:"06.30 – 07.00",k:"Penyambutan & Pemasangan ID Card Karakter Lucu"},{w:"07.00 – 07.45",k:"Permainan Lingkaran 'Bola Berjalan'"},{w:"07.45 – 08.30",k:"Pengenalan Ruang Kelas & Toilet"},{w:"08.30 – 09.15",k:"Simulasi Cuci Tangan & Antre"},{w:"09.15 – 10.00",k:"Doa & Pulang (10.00)"}], 2:[{w:"06.30 – 07.30",k:"Tour de Sekolah (UKS, Perpustakaan)"},{w:"07.30 – 08.15",k:"Simulasi Antre Toilet & Cuci Tangan"},{w:"08.15 – 09.00",k:"Dongeng Kearifan Lokal Majalengka"},{w:"09.00 – 10.00",k:"Refleksi & Pulang (10.00)"}], 3:[{w:"06.30 – 07.30",k:"Nonton Video Animasi Berbagi & Berteman"},{w:"07.30 – 08.30",k:"Materi 'Sentuhan Boleh & Tidak Boleh'"},{w:"08.30 – 09.30",k:"Cap Jempol Warna-Warni 'Anak Baik'"},{w:"09.30 – 10.00",k:"Doa & Pulang (10.00)"}], 4:[{w:"06.30 – 07.30",k:"Asesmen Emosi (Gambar Emotikon)"},{w:"07.30 – 08.30",k:"Bernyanyi Edukatif Huruf & Angka"},{w:"08.30 – 09.30",k:"Merapikan Tas & Alat Tulis ke Laci"},{w:"09.30 – 10.00",k:"Doa & Pulang (10.00)"}], 5:[{w:"06.30 – 08.00",k:"Panggung Ceria: Menari Berkelompok"},{w:"08.00 – 09.00",k:"Pemberian Stiker Bintang Kebaikan"},{w:"09.00 – 10.00",k:"Papan Perasaan & Penutupan (10.00)"}] },
@@ -413,7 +458,28 @@
         function konversiNilaiHuruf(a) { if(a>=90) return 'A'; if(a>=80) return 'B'; if(a>=70) return 'C'; if(a>=60) return 'D'; return 'E'; }
         function escapeHtml(t) { let d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
-        /* Buat ID unik 8 karakter dari nama + kelas */
+        /* Kompresi gambar */
+        function compressImage(file, maxW, maxH) {
+            maxW = maxW || 400; maxH = maxH || 400;
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        let w = img.width, h = img.height;
+                        if(w > maxW || h > maxH) { if(w > h) { h = Math.round(h * maxW / w); w = maxW; } else { w = Math.round(w * maxH / h); h = maxH; } }
+                        canvas.width = w; canvas.height = h;
+                        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                        resolve(canvas.toDataURL('image/jpeg', 0.6));
+                    }
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            });
+        }
+
+        /* Buat ID unik 8 karakter */
         function generateIdCard(nama, kelas) {
             let hash = 0;
             const str = nama.toUpperCase() + kelas + "MPLS2026";
@@ -429,20 +495,28 @@
             return id;
         }
 
-        /* Warna per kelas */
+        /* Warna & tema per kelas */
         const warnaKelas = { 1: "#FF6B6B", 2: "#FF8E53", 3: "#66BB6A", 4: "#42A5F5", 5: "#AB47BC", 6: "#FFA726" };
         const temaKelas = { 1: "Fondasi Transisi", 2: "Adaptasi Lanjutan", 3: "Manajemen Diri", 4: "Kepemimpinan", 5: "Kerja Sama Tim", 6: "Keteladanan" };
 
         /* ========== GENERATE HTML ID CARD ========== */
-        function generateIdCardHtml(nama, kelas, noUrut, docId) {
+        function generateIdCardHtml(nama, kelas, noUrut, fotoUrl) {
             const warna = warnaKelas[kelas] || "#FF6B6B";
-            const idCard = generateIdCard(nama, kelas, docId);
+            const idCard = generateIdCard(nama, kelas);
             const tema = temaKelas[kelas] || "";
             const namaUpper = nama.toUpperCase();
             const inisial = nama.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
 
+            /* Jika ada foto, tampilkan foto; jika tidak, tampilkan inisial */
+            let fotoArea = '';
+            if (fotoUrl) {
+                fotoArea = `<img src="${fotoUrl}" alt="${escapeHtml(nama)}" style="width:100%;height:100%;object-fit:cover;">`;
+            } else {
+                fotoArea = `<span style="font-size:28px;font-weight:900;color:${warna};line-height:1;">${inisial}</span><span style="font-size:7px;font-weight:800;color:${warna};margin-top:4px;opacity:0.7;">PESERTA</span>`;
+            }
+
             return `
-            <div style="
+            <div class="id-card-wrapper" style="
                 width: 340px;
                 height: 210px;
                 border-radius: 18px;
@@ -452,9 +526,9 @@
                 background: white;
                 box-shadow: 0 4px 20px rgba(0,0,0,0.12);
                 page-break-inside: avoid;
+                break-inside: avoid;
                 margin: 10px auto;
             ">
-                <!-- Header gradien -->
                 <div style="
                     height: 72px;
                     background: linear-gradient(135deg, ${warna}, ${warna}CC);
@@ -462,41 +536,31 @@
                     position: relative;
                     overflow: hidden;
                 ">
-                    <!-- Ornamen lingkaran -->
                     <div style="position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.12);"></div>
                     <div style="position:absolute;top:30px;right:40px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.08);"></div>
                     <div style="position:absolute;bottom:-10px;left:50%;width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,0.06);"></div>
-                    
                     <div style="position:relative;z-index:2;">
                         <div style="color:white;font-size:9px;font-weight:800;letter-spacing:1.5px;opacity:0.9;">SDN MAJALENGKA WETAN VIII</div>
                         <div style="color:white;font-size:15px;font-weight:900;margin-top:2px;">KARTU PESERTA MPLS</div>
                         <div style="color:rgba(255,255,255,0.85);font-size:8.5px;font-weight:700;letter-spacing:0.5px;">TAHUN AJARAN 2026/2027</div>
                     </div>
                 </div>
-
-                <!-- Garis aksen -->
                 <div style="height:4px;background:linear-gradient(90deg, ${warna}, #FFD166, ${warna});"></div>
-
-                <!-- Body -->
                 <div style="padding:10px 18px;display:flex;gap:14px;align-items:flex-start;">
-                    <!-- Foto / Inisial -->
                     <div style="
                         width: 62px; height: 74px; flex-shrink: 0;
                         border-radius: 12px;
-                        background: linear-gradient(145deg, ${warna}22, ${warna}11);
-                        border: 2.5px solid ${warna}44;
+                        background: ${fotoUrl ? 'transparent' : 'linear-gradient(145deg, '+warna+'22, '+warna+'11)'};
+                        border: ${fotoUrl ? '2.5px solid '+warna : '2.5px solid '+warna+'44'};
                         display: flex; align-items: center; justify-content: center;
                         flex-direction: column;
+                        overflow: hidden;
                     ">
-                        <span style="font-size:28px;font-weight:900;color:${warna};line-height:1;">${inisial}</span>
-                        <span style="font-size:7px;font-weight:800;color:${warna};margin-top:4px;opacity:0.7;">PESERTA</span>
+                        ${fotoArea}
                     </div>
-
-                    <!-- Info -->
                     <div style="flex:1;min-width:0;">
                         <div style="font-size:7.5px;font-weight:800;color:#999;letter-spacing:1px;">NAMA PESERTA</div>
                         <div style="font-size:14.5px;font-weight:900;color:#222;margin-top:1px;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(namaUpper)}</div>
-                        
                         <div style="display:flex;gap:12px;margin-top:6px;">
                             <div>
                                 <div style="font-size:7px;font-weight:800;color:#999;letter-spacing:1px;">KELAS</div>
@@ -507,12 +571,9 @@
                                 <div style="font-size:16px;font-weight:900;color:#555;line-height:1.2;">${String(noUrut).padStart(3,'0')}</div>
                             </div>
                         </div>
-
                         <div style="margin-top:5px;font-size:7.5px;font-weight:700;color:${warna};background:${warna}11;padding:2px 8px;border-radius:6px;display:inline-block;">${tema}</div>
                     </div>
                 </div>
-
-                <!-- Footer barcode area -->
                 <div style="
                     position: absolute;
                     bottom: 0; left: 0; right: 0;
@@ -523,7 +584,6 @@
                     justify-content: space-between;
                     padding: 0 18px;
                 ">
-                    <!-- Barcode visual -->
                     <div style="display:flex;gap:1px;align-items:flex-end;height:18px;">
                         ${generateBarcode(idCard)}
                     </div>
@@ -532,7 +592,7 @@
             </div>`;
         }
 
-        /* Barcode visual sederhana dari string */
+        /* Barcode visual */
         function generateBarcode(str) {
             let bars = '';
             for (let i = 0; i < str.length; i++) {
@@ -559,13 +619,113 @@
             if (e.target === this) tutupModalCetakId();
         });
 
-        /* Cetak dari area print tersembunyi */
+        /* ========== CETAK YANG PASTI MUNCUL ========== */
         function doPrintIdCard() {
-            const preview = document.getElementById('idCardPreviewContainer').innerHTML;
+            const previewHtml = document.getElementById('idCardPreviewContainer').innerHTML;
             const printArea = document.getElementById('printAreaId');
-            printArea.innerHTML = preview;
-            window.print();
-            setTimeout(() => { printArea.innerHTML = ''; }, 1000);
+            
+            /* Isi area cetak dengan wrapper + header */
+            printArea.innerHTML = `
+                <div>
+                    <div class="print-header">
+                        <h2>ID Card MPLS - SDN Majalengka Wetan VIII</h2>
+                        <p>Tahun Ajaran 2026/2027</p>
+                    </div>
+                    ${previewHtml}
+                </div>
+            `;
+            
+            /* Paksa render dulu, lalu print */
+            printArea.style.display = 'block';
+            
+            setTimeout(() => {
+                window.print();
+                /* Kembalikan setelah print dialog muncul */
+                setTimeout(() => { printArea.style.display = 'none'; printArea.innerHTML = ''; }, 500);
+            }, 300);
+        }
+
+        /* ========== UPLOAD FOTO PROFIL - SISWA ========== */
+        async function uploadFotoProfilSiswa(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            if (!file.type.startsWith('image/')) return showToast("File harus berupa gambar!");
+            
+            showToast("⏳ Mengupload foto...");
+            try {
+                const compressed = await compressImage(file, 400, 400);
+                await db.collection('peserta_mpls').doc(dataSekarang.docId).update({
+                    foto_profil: compressed
+                });
+                
+                /* Update tampilan langsung */
+                const circle = document.getElementById('fotoProfilCircle');
+                circle.innerHTML = `<img src="${compressed}" alt="Foto Profil">`;
+                
+                /* Update cache juga */
+                const cached = dataSiswaCache.find(s => s.docId === dataSekarang.docId);
+                if (cached) cached.foto_profil = compressed;
+                
+                showToast("Foto profil berhasil diupload! 📸");
+            } catch(err) {
+                showToast("Gagal upload foto: " + err.message);
+            }
+            e.target.value = '';
+        }
+
+        /* ========== UPLOAD FOTO PROFIL - GURU UNTUK SISWA ========== */
+        function bukaModalUploadFoto(docId, nama) {
+            currentUploadFotoDocId = docId;
+            document.getElementById('modalNamaSiswaFoto').innerText = 'Siswa: ' + nama;
+            
+            /* Tampilkan foto yang sudah ada (kalau ada) */
+            const cached = dataSiswaCache.find(s => s.docId === docId);
+            const circle = document.getElementById('fotoProfilCircleGuru');
+            if (cached && cached.foto_profil) {
+                circle.innerHTML = `<img src="${cached.foto_profil}" alt="Foto" style="width:100%;height:100%;object-fit:cover;">`;
+            } else {
+                circle.innerHTML = `<span class="placeholder-foto" style="font-size:50px;">🧑</span>`;
+            }
+            
+            document.getElementById('modalUploadFotoSiswa').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        function tutupModalUploadFoto() {
+            document.getElementById('modalUploadFotoSiswa').classList.remove('show');
+            document.body.style.overflow = '';
+            currentUploadFotoDocId = null;
+        }
+        document.getElementById('modalUploadFotoSiswa').addEventListener('click', function(e) {
+            if (e.target === this) tutupModalUploadFoto();
+        });
+
+        async function uploadFotoProfilGuru(e) {
+            const file = e.target.files[0];
+            if (!file || !currentUploadFotoDocId) return;
+            if (!file.type.startsWith('image/')) return showToast("File harus berupa gambar!");
+            
+            showToast("⏳ Mengupload foto...");
+            try {
+                const compressed = await compressImage(file, 400, 400);
+                await db.collection('peserta_mpls').doc(currentUploadFotoDocId).update({
+                    foto_profil: compressed
+                });
+                
+                /* Update preview di modal */
+                const circle = document.getElementById('fotoProfilCircleGuru');
+                circle.innerHTML = `<img src="${compressed}" alt="Foto" style="width:100%;height:100%;object-fit:cover;">`;
+                
+                /* Update cache */
+                const cached = dataSiswaCache.find(s => s.docId === currentUploadFotoDocId);
+                if (cached) cached.foto_profil = compressed;
+                
+                showToast("Foto profil siswa berhasil diupload! 📸");
+                /* Tutup modal setelah berhasil */
+                setTimeout(() => tutupModalUploadFoto(), 800);
+            } catch(err) {
+                showToast("Gagal upload foto: " + err.message);
+            }
+            e.target.value = '';
         }
 
         /* ========== SISWA: LIHAT ID CARD ========== */
@@ -574,24 +734,26 @@
             const kelas = dataSekarang.kelas;
             if (!nama || !kelas) return showToast("Data siswa belum tersedia.");
             
-            // Cari no urut dari cache guru (jika ada), default 1
-            const noUrut = 1; // Siswa tidak tahu no urut, bisa di-update
-            const html = generateIdCardHtml(nama, parseInt(kelas), noUrut, dataSekarang.docId);
+            const cached = dataSiswaCache.find(s => s.docId === dataSekarang.docId);
+            const fotoUrl = cached ? cached.foto_profil : null;
+            const html = generateIdCardHtml(nama, parseInt(kelas), 1, fotoUrl);
             bukaModalCetakId(html);
         }
 
         /* ========== GURU: CETAK ID PER SISWA ========== */
         async function cetakIdPerSiswa(docId, nama, kelas) {
-            // Cari no urut
             const snap = await db.collection('peserta_mpls').where('kelas', '==', kelas).get();
             let no = 1;
-            let found = false;
             const sorted = [];
             snap.forEach(d => sorted.push({ id: d.id, nama: d.data().nama }));
             sorted.sort((a, b) => a.nama.localeCompare(b.nama));
-            sorted.forEach((s, i) => { if (s.id === docId) { no = i + 1; found = true; } });
+            sorted.forEach((s, i) => { if (s.id === docId) no = i + 1; });
             
-            const html = generateIdCardHtml(nama, parseInt(kelas), no, docId);
+            /* Cari foto dari cache */
+            const cached = dataSiswaCache.find(s => s.docId === docId);
+            const fotoUrl = cached ? cached.foto_profil : null;
+            
+            const html = generateIdCardHtml(nama, parseInt(kelas), no, fotoUrl);
             bukaModalCetakId(html);
         }
 
@@ -602,59 +764,49 @@
             if (snap.empty) return showToast("Belum ada siswa di kelas ini.");
             
             const sorted = [];
-            snap.forEach(d => sorted.push({ docId: d.id, nama: d.data().nama }));
+            snap.forEach(d => { const s = d.data(); sorted.push({ docId: d.id, nama: s.nama, foto_profil: s.foto_profil }); });
             sorted.sort((a, b) => a.nama.localeCompare(b.nama));
 
-            let allHtml = '<div style="text-align:center;margin-bottom:10px;font-family:Nunito,sans-serif;"><h2 style="font-size:18px;color:#333;">ID Card MPLS - Kelas ' + kelas + '</h2><p style="font-size:12px;color:#888;">SDN Majalengka Wetan VIII - TA 2026/2027</p></div>';
+            let allCards = '';
             sorted.forEach((s, i) => {
-                allHtml += generateIdCardHtml(s.nama, parseInt(kelas), i + 1, s.docId);
+                allCards += generateIdCardHtml(s.nama, parseInt(kelas), i + 1, s.foto_profil);
             });
 
-            // Langsung print tanpa modal
             const printArea = document.getElementById('printAreaId');
-            printArea.innerHTML = allHtml;
-            window.print();
-            setTimeout(() => { printArea.innerHTML = ''; }, 1500);
+            printArea.innerHTML = `
+                <div>
+                    <div class="print-header">
+                        <h2>ID Card MPLS - Kelas ${kelas} - SDN Majalengka Wetan VIII</h2>
+                        <p>Tahun Ajaran 2026/2027 | Jumlah: ${sorted.length} siswa</p>
+                    </div>
+                    ${allCards}
+                </div>
+            `;
+            
+            printArea.style.display = 'block';
+            setTimeout(() => {
+                window.print();
+                setTimeout(() => { printArea.style.display = 'none'; printArea.innerHTML = ''; }, 500);
+            }, 300);
+            
             showToast(`Mencetak ${sorted.length} ID card Kelas ${kelas}...`);
-        }
-
-        function compressImage(file) {
-            return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = new Image();
-                    img.onload = function() {
-                        const canvas = document.createElement('canvas');
-                        const maxW = 800, maxH = 600; let w = img.width, h = img.height;
-                        if(w > maxW || h > maxH) { if(w > h) { h = Math.round(h * maxW / w); w = maxW; } else { w = Math.round(w * maxH / h); h = maxH; } }
-                        canvas.width = w; canvas.height = h;
-                        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-                        resolve(canvas.toDataURL('image/jpeg', 0.5));
-                    }
-                    img.src = e.target.result;
-                }
-                reader.readAsDataURL(file);
-            });
         }
 
         // ==================== MODUL HAPUS SISWA ====================
         async function hapusSiswa(docId, nama) {
-            if(!confirm(`Yakin ingin menghapus data siswa "${nama}"?\n\nData nilai dan ceklis juga akan ikut terhapus dari Firebase.`)) return;
+            if(!confirm(`Yakin ingin menghapus data siswa "${nama}"?\n\nData nilai, foto, dan ceklis juga akan ikut terhapus.`)) return;
             try {
                 await db.collection('peserta_mpls').doc(docId).delete();
-                showToast(`Siswa "${nama}" berhasil dihapus dari Firebase! 🗑️`);
+                showToast(`Siswa "${nama}" berhasil dihapus! 🗑️`);
                 muatDataGuru();
             } catch(err) { showToast("Gagal menghapus: " + err.message); }
         }
 
         // ==================== MODUL KIRIM NILAI AKHIR ====================
         async function kirimNilaiAkhir(docId, nama) {
-            if(!confirm(`Kirim nilai akhir MPLS kepada "${nama}"?\n\nSiswa akan langsung melihat nilainya saat login.`)) return;
+            if(!confirm(`Kirim nilai akhir MPLS kepada "${nama}"?`)) return;
             try {
-                await db.collection('peserta_mpls').doc(docId).update({ 
-                    nilai_dikirim: true, 
-                    waktu_kirim: firebase.firestore.FieldValue.serverTimestamp() 
-                });
+                await db.collection('peserta_mpls').doc(docId).update({ nilai_dikirim: true, waktu_kirim: firebase.firestore.FieldValue.serverTimestamp() });
                 showToast(`Nilai akhir untuk "${nama}" berhasil dikirim! 📧`);
                 muatDataGuru();
             } catch(err) { showToast("Gagal mengirim: " + err.message); }
@@ -674,14 +826,10 @@
             });
             if(count === 0) return showToast("Tidak ada siswa yang belum dikirim nilainya.");
             if(!confirm(`Ada ${count} siswa yang akan menerima nilai akhir. Lanjutkan?`)) return;
-            
             const btn = document.getElementById('btnKirimBulky');
             btn.disabled = true; btn.innerText = `⏳ Mengirim ke ${count} siswa...`;
-            try {
-                await batch.commit();
-                showToast(`Berhasil mengirim nilai akhir ke ${count} siswa! 🎉📧`);
-                muatDataGuru();
-            } catch(err) { showToast("Gagal mengirim: " + err.message); }
+            try { await batch.commit(); showToast(`Berhasil mengirim ke ${count} siswa! 🎉📧`); muatDataGuru(); }
+            catch(err) { showToast("Gagal: " + err.message); }
             btn.disabled = false; btn.innerText = "📧 KIRIM NILAI AKHIR KE SEMUA SISWA YANG SUDAH DINILAI";
         }
 
@@ -754,7 +902,7 @@
         function masukDashboardGuru(nama, kelas) {
             document.getElementById('areaLoginGuru').classList.add('hidden'); document.getElementById('areaDashboardGuru').classList.remove('hidden');
             document.getElementById('namaTampilGuru').innerText = nama; document.getElementById('badgeKelasGuru').innerText = "Wali Kelas " + kelas;
-            muatDataGuru(); window.scrollTo({top:0, behavior:'smooth'});
+            muatDataGuru(); muatUploadHistory(); window.scrollTo({top:0, behavior:'smooth'});
         }
 
         async function muatDataGuru() {
@@ -775,6 +923,7 @@
                 for(let h=1;h<=5;h++) { if(kegiatanMPLS[kelas][h]) { totK+=kegiatanMPLS[kelas][h].length; kegiatanMPLS[kelas][h].forEach((k,i)=>{if(s[`h${h}_${i}`])cekC++;}); } }
                 const hasNilai = s.nilai_angka !== undefined && s.nilai_angka !== null;
                 const isTerkirim = s.nilai_dikirim === true;
+                const hasFoto = !!s.foto_profil;
                 if(currentFilterNilai === 'belum' && hasNilai) return;
                 if(currentFilterNilai === 'sudah' && !hasNilai) return;
                 if(currentFilterNilai === 'terkirim' && !isTerkirim) return;
@@ -784,14 +933,30 @@
                 let nColor = '#ccc', nTxt = '-', nH = '';
                 if(hasNilai) { nTxt = s.nilai_angka; nH = s.nilai_huruf; nColor = nTxt>=80?'#2E7D32':(nTxt>=60?'#F57F17':'#D32F2F'); }
                 
+                /* Ikon foto: kalau sudah ada foto tampilkan ✅, kalau belum tampilkan tombol upload */
+                const fotoIcon = hasFoto 
+                    ? `<span style="font-size:10px;color:#2E7D32;" title="Sudah ada foto">✅</span>` 
+                    : `<span style="font-size:10px;color:#E65100;" title="Belum ada foto">⚠️</span>`;
+                
+                /* Escape nama dengan aman untuk inline handler */
+                const safeNama = (s.nama || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                const nilaiData = hasNilai ? `{angka:${s.nilai_angka},predikat:"${escapeHtml(s.predikat||'')}",aspek:"${escapeHtml(s.aspek||'')}",catatan:"${escapeHtml((s.catatan||'').replace(/"/g,'&quot;'))}"}` : 'null';
+                
                 listHtml += `<div class="siswa-list-item">
-                    <div class="siswa-info"><div class="nama-siswa">${escapeHtml(s.nama)}</div><span class="status-badge ${stClass}">${stText}</span></div>
-                    <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
+                    <div class="siswa-info">
+                        ${hasFoto ? `<div style="width:32px;height:32px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid #FFD166;"><img src="${s.foto_profil}" style="width:100%;height:100%;object-fit:cover;"></div>` : `<div style="width:32px;height:32px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;border:2px solid #eee;">🧑</div>`}
+                        <div>
+                            <div class="nama-siswa">${escapeHtml(s.nama)}</div>
+                            <span class="status-badge ${stClass}">${stText} ${fotoIcon}</span>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
                         <span class="nilai-display" style="color:${nColor}">${nTxt}${nH?'<sub style="font-size:10px">'+nH+'</sub>':''}</span>
-                        <button class="btn-action btn-cetak-id" onclick="cetakIdPerSiswa('${s.docId}','${escapeHtml(s.nama)}','${kelas}')" title="Cetak ID Card">🪪</button>
-                        <button class="btn-action btn-nilai" onclick='bukaModalNilai("${s.docId}","${escapeHtml(s.nama)}",${hasNilai ? `{angka:${s.nilai_angka},predikat:"${escapeHtml(s.predikat||'')}",aspek:"${escapeHtml(s.aspek||'')}",catatan:"${escapeHtml((s.catatan||'').replace(/"/g,'\\"'))}"}` : 'null'})' title="Input Nilai">📝</button>
-                        ${hasNilai && !isTerkirim ? `<button class="btn-action btn-kirim" onclick="kirimNilaiAkhir('${s.docId}','${escapeHtml(s.nama)}')" title="Kirim Nilai">📧</button>` : ''}
-                        <button class="btn-action btn-hapus" onclick="hapusSiswa('${s.docId}','${escapeHtml(s.nama)}')" title="Hapus Siswa">🗑️</button>
+                        <button class="btn-action btn-upload-foto" onclick="bukaModalUploadFoto('${s.docId}','${safeNama}')" title="Upload Foto">📷</button>
+                        <button class="btn-action btn-cetak-id" onclick="cetakIdPerSiswa('${s.docId}','${safeNama}','${kelas}')" title="Cetak ID Card">🪪</button>
+                        <button class="btn-action btn-nilai" onclick='bukaModalNilai("${s.docId}","${safeNama}",${nilaiData})' title="Input Nilai">📝</button>
+                        ${hasNilai && !isTerkirim ? `<button class="btn-action btn-kirim" onclick="kirimNilaiAkhir('${s.docId}','${safeNama}')" title="Kirim Nilai">📧</button>` : ''}
+                        <button class="btn-action btn-hapus" onclick="hapusSiswa('${s.docId}','${safeNama}')" title="Hapus Siswa">🗑️</button>
                     </div>
                 </div>`;
             });
@@ -806,8 +971,10 @@
             const btn = document.getElementById('btnSubmitSiswa');
             const snap = await db.collection('peserta_mpls').where('nama', '==', nama).where('kelas', '==', kelas).get();
             if(!snap.empty) {
+                const sData = snap.docs[0].data();
                 dataSekarang = { docId: snap.docs[0].id, kelas, role: 'siswa', namaSiswa: nama };
-                masukDashboardSiswa(nama, kelas, snap.docs[0].data());
+                dataSiswaCache = [{ docId: snap.docs[0].id, ...sData }];
+                masukDashboardSiswa(nama, kelas, sData);
             } else {
                 document.getElementById('boxPersetujuan').classList.remove('hidden');
                 if(!document.getElementById('cek1').checked || !document.getElementById('cek2').checked) {
@@ -818,8 +985,10 @@
                 try {
                     const ref = await db.collection('peserta_mpls').add({ nama, kelas, setuju1: true, setuju2: true, waktu_daftar: firebase.firestore.FieldValue.serverTimestamp() });
                     dataSekarang = { docId: ref.id, kelas, role: 'siswa', namaSiswa: nama };
+                    const newData = { nama, kelas };
+                    dataSiswaCache = [{ docId: ref.id, ...newData }];
                     showToast("Pendaftaran berhasil! Selamat datang! 🎉");
-                    masukDashboardSiswa(nama, kelas, { nama, kelas });
+                    masukDashboardSiswa(nama, kelas, newData);
                 } catch(err) { showToast("Gagal: " + err.message); btn.disabled = false; btn.innerText = "🚀 MASUK"; }
             }
             return false;
@@ -831,7 +1000,15 @@
             document.getElementById('namaTampilSiswa').innerText = nama;
             document.getElementById('badgeKelasSiswa').innerText = "Kelas " + kelas;
             
-            // Tampilkan nilai jika sudah dikirim
+            /* Tampilkan foto profil jika ada */
+            const circle = document.getElementById('fotoProfilCircle');
+            if (data.foto_profil) {
+                circle.innerHTML = `<img src="${data.foto_profil}" alt="Foto Profil">`;
+            } else {
+                circle.innerHTML = `<span class="placeholder-foto">🧑</span>`;
+            }
+            
+            /* Nilai */
             const nArea = document.getElementById('nilaiTotalSiswa');
             if(data.nilai_dikirim && data.nilai_angka !== undefined && data.nilai_angka !== null) {
                 nArea.innerHTML = `<div class="nilai-final-box" style="margin-top:10px;">
@@ -846,22 +1023,15 @@
                 nArea.innerHTML = `<div class="nilai-siswa-badge belum">⏳ Nilai belum tersedia</div>`;
             }
             
-            // Render jadwal per hari
+            /* Jadwal per hari */
             for(let h=1;h<=5;h++) {
                 const el = document.getElementById('shari'+h);
                 const jadwal = kegiatanMPLS[kelas][h] || [];
                 let html = `<div style="font-size:13px;font-weight:800;color:${kegiatanMPLS[kelas].warna};margin-bottom:10px;">${kegiatanMPLS[kelas].judul}</div>`;
-                
-                // Slideshow foto
                 html += `<div class="slideshow-container" id="slide_s_h${h}"><div class="no-upload-msg"><span>📷</span>Foto kegiatan Hari ${h} belum diupload</div></div>`;
-
-                // Jadwal
                 jadwal.forEach((j,i) => {
-                    const checked = data[`h${h}_${i}`] ? 'checked' : '';
                     html += `<div class="jadwal-item"><span class="jadwal-time">${j.w}</span>${j.k}</div>`;
                 });
-
-                // Checklist
                 if(jadwal.length > 0) {
                     html += `<div class="checklist-box"><h4>✅ Checklist Kehadiran Hari ${h}</h4>`;
                     jadwal.forEach((j,i) => {
@@ -872,8 +1042,6 @@
                 }
                 el.innerHTML = html;
             }
-
-            // Muat foto dari upload guru
             muatFotoSiswa(kelas);
             window.scrollTo({top:0, behavior:'smooth'});
         }
@@ -883,17 +1051,13 @@
             if(snap.empty) return;
             const guru = snap.docs[0].data();
             if(!guru.upload_log) return;
-
             guru.upload_log.forEach(log => {
                 const h = log.hari;
                 const el = document.getElementById('slide_s_h'+h);
                 if(!el || !log.fotos || log.fotos.length === 0) return;
-                
                 let imgsHtml = '';
-                // Duplikat foto agar loop mulus
                 const allFotos = [...log.fotos, ...log.fotos];
                 allFotos.forEach(f => { imgsHtml += `<img src="${f}" alt="Kegiatan">`; });
-                
                 el.innerHTML = `<div class="slide-track" style="animation-duration:${allFotos.length * 4}s">${imgsHtml}</div>
                     <div class="slideshow-overlay">
                         <div class="kegiatan-text">${escapeHtml(log.keterangan || '')}</div>
@@ -907,7 +1071,6 @@
             const field = `h${hari}_${idx}`;
             const indEl = document.getElementById(`saveInd_s_h${hari}`);
             if(indEl) indEl.innerText = "⏳ Menyimpan...";
-            
             clearTimeout(saveTimeout);
             saveTimeout = setTimeout(async () => {
                 try {
@@ -925,27 +1088,22 @@
             document.getElementById(id).classList.add('active');
         }
 
-        function logoutSiswa() { dataSekarang = { docId: null, kelas: null, role: null, namaSiswa: null }; document.getElementById('areaDashboardSiswa').classList.add('hidden'); document.getElementById('areaLoginSiswa').classList.remove('hidden'); document.getElementById('boxPersetujuan').classList.add('hidden'); document.getElementById('btnSubmitSiswa').disabled = false; document.getElementById('btnSubmitSiswa').innerText = "🚀 MASUK"; window.scrollTo({top:0,behavior:'smooth'}); }
-        function logoutGuru() { dataSekarang = { docId: null, kelas: null, role: null }; document.getElementById('areaDashboardGuru').classList.add('hidden'); document.getElementById('areaLoginGuru').classList.remove('hidden'); document.getElementById('btnSubmitGuru').disabled = false; document.getElementById('btnSubmitGuru').innerText = "🔑 MASUK SEBAGAI GURU"; window.scrollTo({top:0,behavior:'smooth'}); }
+        function logoutSiswa() { dataSekarang = { docId: null, kelas: null, role: null, namaSiswa: null }; dataSiswaCache = []; document.getElementById('areaDashboardSiswa').classList.add('hidden'); document.getElementById('areaLoginSiswa').classList.remove('hidden'); document.getElementById('boxPersetujuan').classList.add('hidden'); document.getElementById('btnSubmitSiswa').disabled = false; document.getElementById('btnSubmitSiswa').innerText = "🚀 MASUK"; window.scrollTo({top:0,behavior:'smooth'}); }
+        function logoutGuru() { dataSekarang = { docId: null, kelas: null, role: null }; dataSiswaCache = []; document.getElementById('areaDashboardGuru').classList.add('hidden'); document.getElementById('areaLoginGuru').classList.remove('hidden'); document.getElementById('btnSubmitGuru').disabled = false; document.getElementById('btnSubmitGuru').innerText = "🔑 MASUK SEBAGAI GURU"; window.scrollTo({top:0,behavior:'smooth'}); }
 
-        // ==================== UPLOAD GURU ====================
+        // ==================== UPLOAD FOTO KEGIATAN GURU ====================
         function previewFiles(e) {
             const files = Array.from(e.target.files);
             selectedFiles = selectedFiles.concat(files).slice(0, 4);
             const prev = document.getElementById('uploadPreview');
             prev.innerHTML = '';
-            selectedFiles.forEach((f,i) => {
+            selectedFiles.forEach(f => {
                 const reader = new FileReader();
-                reader.onload = function(ev) {
-                    const img = document.createElement('img');
-                    img.src = ev.target.result;
-                    prev.appendChild(img);
-                }
+                reader.onload = function(ev) { const img = document.createElement('img'); img.src = ev.target.result; prev.appendChild(img); };
                 reader.readAsDataURL(f);
             });
         }
 
-        // Drag & drop
         const uploadArea = document.getElementById('uploadArea');
         if(uploadArea) {
             uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('dragover'); });
@@ -969,13 +1127,10 @@
             const ket = document.getElementById('ketUploadGuru').value.trim();
             if(!ket) return showToast("Isi keterangan kegiatan!");
             if(selectedFiles.length === 0) return showToast("Pilih minimal 1 foto!");
-            
             const btn = event.target; btn.disabled = true; btn.innerText = "⏳ Memproses & Mengupload...";
-            
             try {
-                const compressed = await Promise.all(selectedFiles.map(f => compressImage(f)));
-                const docRef = db.collection('guru_mpls').doc(dataSekarang.docId);
-                await docRef.update({
+                const compressed = await Promise.all(selectedFiles.map(f => compressImage(f, 800, 600)));
+                await db.collection('guru_mpls').doc(dataSekarang.docId).update({
                     upload_log: firebase.firestore.FieldValue.arrayUnion({
                         hari: parseInt(hari), keterangan: ket, fotos: compressed, waktu: firebase.firestore.FieldValue.serverTimestamp()
                     })
@@ -993,10 +1148,7 @@
         async function muatUploadHistory() {
             const doc = await db.collection('guru_mpls').doc(dataSekarang.docId).get();
             const data = doc.data();
-            if(!data.upload_log || data.upload_log.length === 0) {
-                document.getElementById('uploadHistoryContainer').innerHTML = '';
-                return;
-            }
+            if(!data.upload_log || data.upload_log.length === 0) { document.getElementById('uploadHistoryContainer').innerHTML = ''; return; }
             let html = '<div style="font-size:13px;font-weight:800;color:#555;margin-top:16px;margin-bottom:8px;">📁 Riwayat Upload</div>';
             data.upload_log.slice().reverse().forEach((log, ri) => {
                 const realIdx = data.upload_log.length - 1 - ri;
@@ -1019,13 +1171,6 @@
             showToast("Upload berhasil dihapus!");
             muatUploadHistory();
         }
-
-        // Override masukDashboardGuru untuk juga muat upload history
-        const _origMasukGuru = masukDashboardGuru;
-        masukDashboardGuru = function(nama, kelas) {
-            _origMasukGuru(nama, kelas);
-            muatUploadHistory();
-        };
 
         // ==================== CONFETTI ====================
         function triggerConfetti() {
