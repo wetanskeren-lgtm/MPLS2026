@@ -90,6 +90,7 @@
         .btn-nilai { background: linear-gradient(135deg, #FF6B6B, #FF8E53); color: white; box-shadow: 0 3px 8px rgba(255,107,107,0.25); }
         .btn-kirim { background: linear-gradient(135deg, #1565C0, #42A5F5); color: white; box-shadow: 0 3px 8px rgba(21,101,192,0.25); }
         .btn-hapus { background: #FFEBEE; color: #D32F2F; }
+        .btn-cetak-id { background: linear-gradient(135deg, #6A1B9A, #AB47BC); color: white; box-shadow: 0 3px 8px rgba(106,27,154,0.25); }
         .btn-action:hover { transform: translateY(-1px); filter: brightness(1.05); }
         .btn-action:disabled { background: #eee; color: #aaa; box-shadow: none; cursor: not-allowed; transform: none; }
         .btn-kirim-bulk { background: linear-gradient(135deg, #0D47A1, #1976D2); color: white; border: none; width: 100%; padding: 16px; font-size: 15px; font-weight: 800; border-radius: 16px; margin-top: 12px; cursor: pointer; font-family: 'Nunito', sans-serif; box-shadow: 0 6px 20px rgba(13,71,161,0.3); transition: 0.25s; }
@@ -155,6 +156,61 @@
         .filter-hari-bar span { font-size: 12px; font-weight: 800; color: #888; }
         .filter-hari-btn { background: white; border: 2px solid #E8E8E8; padding: 6px 14px; font-size: 12px; font-weight: 800; cursor: pointer; border-radius: 10px; font-family: 'Nunito', sans-serif; transition: 0.2s; color: #888; }
         .filter-hari-btn.active { background: linear-gradient(135deg, #FF6B6B, #FF8E53); color: white; border-color: transparent; }
+
+        /* ========== CETAK ID SISWA ========== */
+        .btn-cetak-id-card {
+            background: linear-gradient(135deg, #6A1B9A, #AB47BC);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            font-size: 15px;
+            font-weight: 800;
+            border-radius: 16px;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            box-shadow: 0 6px 20px rgba(106,27,154,0.35);
+            transition: 0.25s;
+            width: 100%;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-cetak-id-card:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(106,27,154,0.45); }
+
+        /* Modal cetak ID yang lebih lebar */
+        .modal-cetak-id .modal-box { max-width: 520px; }
+        .btn-print-now {
+            background: linear-gradient(135deg, #1565C0, #42A5F5);
+            color: white; border: none; width: 100%; padding: 15px;
+            font-size: 15px; font-weight: 800; border-radius: 16px; margin-top: 16px;
+            cursor: pointer; font-family: 'Nunito', sans-serif;
+            box-shadow: 0 6px 20px rgba(21,101,192,0.3); transition: 0.25s;
+        }
+        .btn-print-now:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(21,101,192,0.4); }
+        .btn-print-all-ids {
+            background: linear-gradient(135deg, #E65100, #FF8E53);
+            color: white; border: none; width: 100%; padding: 15px;
+            font-size: 14px; font-weight: 800; border-radius: 16px; margin-top: 10px;
+            cursor: pointer; font-family: 'Nunito', sans-serif;
+            box-shadow: 0 6px 20px rgba(230,81,0,0.3); transition: 0.25s;
+        }
+        .btn-print-all-ids:hover { transform: translateY(-2px); }
+
+        /* Area preview ID card dalam modal */
+        #idCardPreviewContainer {
+            display: flex; justify-content: center; margin: 16px 0;
+        }
+
+        /* ========== PRINT STYLES ========== */
+        @media print {
+            body { background: white !important; }
+            .header, .container, .deco, .toast, .modal-overlay, .no-print { display: none !important; }
+            #printAreaId { display: block !important; position: static !important; }
+        }
+
+        #printAreaId { display: none; }
     </style>
 </head>
 <body>
@@ -220,6 +276,8 @@
                 <div id="nilaiTotalSiswa" style="margin-top:10px;"></div>
                 <p style="margin-top:10px; font-size:12.5px; opacity:0.9;">Lihat foto kegiatan dan centang yang sudah kamu ikuti!</p>
             </div>
+            <!-- Tombol lihat ID card siswa -->
+            <button class="btn-cetak-id-card" onclick="lihatIdCardSiswa()">🪪 Lihat & Cetak ID Card MPLS</button>
             <div class="nav-hari" id="navSiswa">
                 <button class="active" onclick="gantiHariSiswa(event, 'shari1')">☀️ Hari 1</button>
                 <button onclick="gantiHariSiswa(event, 'shari2')">🌈 Hari 2</button>
@@ -282,6 +340,8 @@
                 </div>
                 <div id="listSiswaGuru" style="margin-top:10px;"></div>
                 <button class="btn-kirim-bulk" id="btnKirimBulky" onclick="kirimSemuaNilai()">📧 KIRIM NILAI AKHIR KE SEMUA SISWA YANG SUDAH DINILAI</button>
+                <!-- Tombol cetak semua ID -->
+                <button class="btn-print-all-ids" onclick="cetakSemuaIdCard()">🖨️ CETAK SEMUA ID CARD SISWA SEKALIGUS</button>
             </div>
             <button class="btn-secondary" onclick="logoutGuru()">🔓 Keluar</button>
         </div>
@@ -311,6 +371,20 @@
         </div>
     </div>
 
+    <!-- MODAL CETAK ID CARD -->
+    <div class="modal-overlay modal-cetak-id" id="modalCetakId">
+        <div class="modal-box">
+            <button class="modal-close" onclick="tutupModalCetakId()">✕</button>
+            <h2>🪪 ID Card MPLS</h2>
+            <p class="modal-subtitle">Preview kartu identitas peserta MPLS</p>
+            <div id="idCardPreviewContainer"></div>
+            <button class="btn-print-now" onclick="doPrintIdCard()">🖨️ CETAK SEKARANG</button>
+        </div>
+    </div>
+
+    <!-- AREA PRINT TERSEMBUNYI -->
+    <div id="printAreaId"></div>
+
     <div class="toast" id="toast"></div>
 
     <script>
@@ -322,6 +396,7 @@
         let selectedFiles = [];
         let currentNilaiDocId = null;
         let currentFilterNilai = 'semua';
+        let dataSiswaCache = []; // Cache daftar siswa untuk cetak massal
 
         const kegiatanMPLS = {
             1: { judul: "Fondasi Transisi & Kemandirian", warna: "#FF6B6B", 1:[{w:"06.30 – 07.00",k:"Penyambutan & Pemasangan ID Card Karakter Lucu"},{w:"07.00 – 07.45",k:"Permainan Lingkaran 'Bola Berjalan'"},{w:"07.45 – 08.30",k:"Pengenalan Ruang Kelas & Toilet"},{w:"08.30 – 09.15",k:"Simulasi Cuci Tangan & Antre"},{w:"09.15 – 10.00",k:"Doa & Pulang (10.00)"}], 2:[{w:"06.30 – 07.30",k:"Tour de Sekolah (UKS, Perpustakaan)"},{w:"07.30 – 08.15",k:"Simulasi Antre Toilet & Cuci Tangan"},{w:"08.15 – 09.00",k:"Dongeng Kearifan Lokal Majalengka"},{w:"09.00 – 10.00",k:"Refleksi & Pulang (10.00)"}], 3:[{w:"06.30 – 07.30",k:"Nonton Video Animasi Berbagi & Berteman"},{w:"07.30 – 08.30",k:"Materi 'Sentuhan Boleh & Tidak Boleh'"},{w:"08.30 – 09.30",k:"Cap Jempol Warna-Warni 'Anak Baik'"},{w:"09.30 – 10.00",k:"Doa & Pulang (10.00)"}], 4:[{w:"06.30 – 07.30",k:"Asesmen Emosi (Gambar Emotikon)"},{w:"07.30 – 08.30",k:"Bernyanyi Edukatif Huruf & Angka"},{w:"08.30 – 09.30",k:"Merapikan Tas & Alat Tulis ke Laci"},{w:"09.30 – 10.00",k:"Doa & Pulang (10.00)"}], 5:[{w:"06.30 – 08.00",k:"Panggung Ceria: Menari Berkelompok"},{w:"08.00 – 09.00",k:"Pemberian Stiker Bintang Kebaikan"},{w:"09.00 – 10.00",k:"Papan Perasaan & Penutupan (10.00)"}] },
@@ -332,10 +407,216 @@
             6: { judul: "Keteladanan & Kelulusan", warna: "#FFA726", 1:[{w:"06.30 – 07.30",k:"Penyambutan Khusus Kelas 6"},{w:"07.30 – 08.30",k:"Jejak Kebaikan Adik Kelas"},{w:"08.30 – 09.30",k:"Visi Misi Slogan Kelas"},{w:"09.30 – 11.30",k:"Doa & Pulang (11.30)"}], 2:[{w:"06.30 – 07.30",k:"Mentor Kebersihan Sekolah"},{w:"07.30 – 08.30",k:"Penataan Taman"},{w:"08.30 – 09.30",k:"Refleksi Pancasila"},{w:"09.30 – 11.30",k:"Doa & Pulang (11.30)"}], 3:[{w:"06.30 – 07.30",k:"Kampanye Sekolah Aman"},{w:"07.30 – 08.30",k:"Petisi Menolak Kekerasan"},{w:"08.30 – 09.30",k:"Simulasi Damai"},{w:"09.30 – 11.30",k:"Doa & Pulang (11.30)"}], 4:[{w:"06.30 – 07.30",k:"Workshop Manajemen Waktu"},{w:"07.30 – 08.30",k:"Asesmen Kesiapan Ujian"},{w:"08.30 – 09.30",k:"Portofolio Digital"},{w:"09.30 – 11.30",k:"Doa & Pulang (11.30)"}], 5:[{w:"06.30 – 08.30",k:"Orasi Komitmen Belajar"},{w:"08.30 – 09.30",k:"Penyerahan Bendera Kelas"},{w:"09.30 – 11.30",k:"Doa Mohon Kelancaran (11.30)"}] }
         };
 
+        /* ========== UTILITAS ========== */
         function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
         function switchRole(role, btn) { document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); document.getElementById('areaLoginSiswa').classList.toggle('hidden', role !== 'siswa'); document.getElementById('areaLoginGuru').classList.toggle('hidden', role !== 'guru'); document.getElementById('areaDashboardSiswa').classList.add('hidden'); document.getElementById('areaDashboardGuru').classList.add('hidden'); }
         function konversiNilaiHuruf(a) { if(a>=90) return 'A'; if(a>=80) return 'B'; if(a>=70) return 'C'; if(a>=60) return 'D'; return 'E'; }
         function escapeHtml(t) { let d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+
+        /* Buat ID unik 8 karakter dari nama + kelas */
+        function generateIdCard(nama, kelas) {
+            let hash = 0;
+            const str = nama.toUpperCase() + kelas + "MPLS2026";
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            const abs = Math.abs(hash);
+            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+            let id = "MPLS";
+            for (let i = 0; i < 5; i++) id += chars[abs % chars.length];
+            return id;
+        }
+
+        /* Warna per kelas */
+        const warnaKelas = { 1: "#FF6B6B", 2: "#FF8E53", 3: "#66BB6A", 4: "#42A5F5", 5: "#AB47BC", 6: "#FFA726" };
+        const temaKelas = { 1: "Fondasi Transisi", 2: "Adaptasi Lanjutan", 3: "Manajemen Diri", 4: "Kepemimpinan", 5: "Kerja Sama Tim", 6: "Keteladanan" };
+
+        /* ========== GENERATE HTML ID CARD ========== */
+        function generateIdCardHtml(nama, kelas, noUrut, docId) {
+            const warna = warnaKelas[kelas] || "#FF6B6B";
+            const idCard = generateIdCard(nama, kelas, docId);
+            const tema = temaKelas[kelas] || "";
+            const namaUpper = nama.toUpperCase();
+            const inisial = nama.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+
+            return `
+            <div style="
+                width: 340px;
+                height: 210px;
+                border-radius: 18px;
+                overflow: hidden;
+                font-family: 'Nunito', Arial, sans-serif;
+                position: relative;
+                background: white;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+                page-break-inside: avoid;
+                margin: 10px auto;
+            ">
+                <!-- Header gradien -->
+                <div style="
+                    height: 72px;
+                    background: linear-gradient(135deg, ${warna}, ${warna}CC);
+                    padding: 10px 18px;
+                    position: relative;
+                    overflow: hidden;
+                ">
+                    <!-- Ornamen lingkaran -->
+                    <div style="position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.12);"></div>
+                    <div style="position:absolute;top:30px;right:40px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.08);"></div>
+                    <div style="position:absolute;bottom:-10px;left:50%;width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,0.06);"></div>
+                    
+                    <div style="position:relative;z-index:2;">
+                        <div style="color:white;font-size:9px;font-weight:800;letter-spacing:1.5px;opacity:0.9;">SDN MAJALENGKA WETAN VIII</div>
+                        <div style="color:white;font-size:15px;font-weight:900;margin-top:2px;">KARTU PESERTA MPLS</div>
+                        <div style="color:rgba(255,255,255,0.85);font-size:8.5px;font-weight:700;letter-spacing:0.5px;">TAHUN AJARAN 2026/2027</div>
+                    </div>
+                </div>
+
+                <!-- Garis aksen -->
+                <div style="height:4px;background:linear-gradient(90deg, ${warna}, #FFD166, ${warna});"></div>
+
+                <!-- Body -->
+                <div style="padding:10px 18px;display:flex;gap:14px;align-items:flex-start;">
+                    <!-- Foto / Inisial -->
+                    <div style="
+                        width: 62px; height: 74px; flex-shrink: 0;
+                        border-radius: 12px;
+                        background: linear-gradient(145deg, ${warna}22, ${warna}11);
+                        border: 2.5px solid ${warna}44;
+                        display: flex; align-items: center; justify-content: center;
+                        flex-direction: column;
+                    ">
+                        <span style="font-size:28px;font-weight:900;color:${warna};line-height:1;">${inisial}</span>
+                        <span style="font-size:7px;font-weight:800;color:${warna};margin-top:4px;opacity:0.7;">PESERTA</span>
+                    </div>
+
+                    <!-- Info -->
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-size:7.5px;font-weight:800;color:#999;letter-spacing:1px;">NAMA PESERTA</div>
+                        <div style="font-size:14.5px;font-weight:900;color:#222;margin-top:1px;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(namaUpper)}</div>
+                        
+                        <div style="display:flex;gap:12px;margin-top:6px;">
+                            <div>
+                                <div style="font-size:7px;font-weight:800;color:#999;letter-spacing:1px;">KELAS</div>
+                                <div style="font-size:16px;font-weight:900;color:${warna};line-height:1.2;">${kelas}</div>
+                            </div>
+                            <div>
+                                <div style="font-size:7px;font-weight:800;color:#999;letter-spacing:1px;">NO. URUT</div>
+                                <div style="font-size:16px;font-weight:900;color:#555;line-height:1.2;">${String(noUrut).padStart(3,'0')}</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:5px;font-size:7.5px;font-weight:700;color:${warna};background:${warna}11;padding:2px 8px;border-radius:6px;display:inline-block;">${tema}</div>
+                    </div>
+                </div>
+
+                <!-- Footer barcode area -->
+                <div style="
+                    position: absolute;
+                    bottom: 0; left: 0; right: 0;
+                    height: 32px;
+                    background: linear-gradient(90deg, #333 0%, #444 100%);
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 0 18px;
+                ">
+                    <!-- Barcode visual -->
+                    <div style="display:flex;gap:1px;align-items:flex-end;height:18px;">
+                        ${generateBarcode(idCard)}
+                    </div>
+                    <div style="color:rgba(255,255,255,0.9);font-size:10px;font-weight:900;letter-spacing:2px;font-family:'Courier New',monospace;">${idCard}</div>
+                </div>
+            </div>`;
+        }
+
+        /* Barcode visual sederhana dari string */
+        function generateBarcode(str) {
+            let bars = '';
+            for (let i = 0; i < str.length; i++) {
+                const code = str.charCodeAt(i);
+                const w = (code % 3) + 1;
+                const h = 12 + (code % 6);
+                bars += `<div style="width:${w}px;height:${h}px;background:rgba(255,255,255,0.9);border-radius:0.5px;"></div>`;
+                if (i < str.length - 1) bars += `<div style="width:1px;height:${h}px;background:rgba(255,255,255,0.3);"></div>`;
+            }
+            return bars;
+        }
+
+        /* ========== MODAL CETAK ID ========== */
+        function bukaModalCetakId(htmlContent) {
+            document.getElementById('idCardPreviewContainer').innerHTML = htmlContent;
+            document.getElementById('modalCetakId').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        function tutupModalCetakId() {
+            document.getElementById('modalCetakId').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+        document.getElementById('modalCetakId').addEventListener('click', function(e) {
+            if (e.target === this) tutupModalCetakId();
+        });
+
+        /* Cetak dari area print tersembunyi */
+        function doPrintIdCard() {
+            const preview = document.getElementById('idCardPreviewContainer').innerHTML;
+            const printArea = document.getElementById('printAreaId');
+            printArea.innerHTML = preview;
+            window.print();
+            setTimeout(() => { printArea.innerHTML = ''; }, 1000);
+        }
+
+        /* ========== SISWA: LIHAT ID CARD ========== */
+        function lihatIdCardSiswa() {
+            const nama = dataSekarang.namaSiswa;
+            const kelas = dataSekarang.kelas;
+            if (!nama || !kelas) return showToast("Data siswa belum tersedia.");
+            
+            // Cari no urut dari cache guru (jika ada), default 1
+            const noUrut = 1; // Siswa tidak tahu no urut, bisa di-update
+            const html = generateIdCardHtml(nama, parseInt(kelas), noUrut, dataSekarang.docId);
+            bukaModalCetakId(html);
+        }
+
+        /* ========== GURU: CETAK ID PER SISWA ========== */
+        async function cetakIdPerSiswa(docId, nama, kelas) {
+            // Cari no urut
+            const snap = await db.collection('peserta_mpls').where('kelas', '==', kelas).get();
+            let no = 1;
+            let found = false;
+            const sorted = [];
+            snap.forEach(d => sorted.push({ id: d.id, nama: d.data().nama }));
+            sorted.sort((a, b) => a.nama.localeCompare(b.nama));
+            sorted.forEach((s, i) => { if (s.id === docId) { no = i + 1; found = true; } });
+            
+            const html = generateIdCardHtml(nama, parseInt(kelas), no, docId);
+            bukaModalCetakId(html);
+        }
+
+        /* ========== GURU: CETAK SEMUA ID CARD ========== */
+        async function cetakSemuaIdCard() {
+            const kelas = dataSekarang.kelas;
+            const snap = await db.collection('peserta_mpls').where('kelas', '==', kelas).get();
+            if (snap.empty) return showToast("Belum ada siswa di kelas ini.");
+            
+            const sorted = [];
+            snap.forEach(d => sorted.push({ docId: d.id, nama: d.data().nama }));
+            sorted.sort((a, b) => a.nama.localeCompare(b.nama));
+
+            let allHtml = '<div style="text-align:center;margin-bottom:10px;font-family:Nunito,sans-serif;"><h2 style="font-size:18px;color:#333;">ID Card MPLS - Kelas ' + kelas + '</h2><p style="font-size:12px;color:#888;">SDN Majalengka Wetan VIII - TA 2026/2027</p></div>';
+            sorted.forEach((s, i) => {
+                allHtml += generateIdCardHtml(s.nama, parseInt(kelas), i + 1, s.docId);
+            });
+
+            // Langsung print tanpa modal
+            const printArea = document.getElementById('printAreaId');
+            printArea.innerHTML = allHtml;
+            window.print();
+            setTimeout(() => { printArea.innerHTML = ''; }, 1500);
+            showToast(`Mencetak ${sorted.length} ID card Kelas ${kelas}...`);
+        }
 
         function compressImage(file) {
             return new Promise((resolve) => {
@@ -484,11 +765,12 @@
             let sudahDinilai = 0, sudahTerkirim = 0, arrSiswa = [];
             snapSiswa.forEach(d => { const s = d.data(); arrSiswa.push({docId: d.id, ...s}); if(s.nilai_angka !== undefined && s.nilai_angka !== null) sudahDinilai++; if(s.nilai_dikirim) sudahTerkirim++; });
             arrSiswa.sort((a, b) => a.nama.localeCompare(b.nama));
+            dataSiswaCache = arrSiswa;
             document.getElementById('totalDinilai').innerText = sudahDinilai;
             document.getElementById('totalTerkirim').innerText = sudahTerkirim;
 
             let listHtml = '';
-            arrSiswa.forEach(s => {
+            arrSiswa.forEach((s, idx) => {
                 let cekC=0, totK=0;
                 for(let h=1;h<=5;h++) { if(kegiatanMPLS[kelas][h]) { totK+=kegiatanMPLS[kelas][h].length; kegiatanMPLS[kelas][h].forEach((k,i)=>{if(s[`h${h}_${i}`])cekC++;}); } }
                 const hasNilai = s.nilai_angka !== undefined && s.nilai_angka !== null;
@@ -501,209 +783,268 @@
                 const stText = isTerkirim ? '📧 Terkirim' : (cekC === totK ? '✅ Selesai' : `${cekC}/${totK}`);
                 let nColor = '#ccc', nTxt = '-', nH = '';
                 if(hasNilai) { nTxt = s.nilai_angka; nH = s.nilai_huruf; nColor = nTxt>=80?'#2E7D32':(nTxt>=60?'#F57F17':'#D32F2F'); }
-                const nJson = hasNilai ? `{angka:${s.nilai_angka},predikat:"${escapeHtml(s.predikat||'')}",aspek:"${escapeHtml(s.aspek||'')}",catatan:"${escapeHtml(s.catatan||'')}"}` : 'null';
                 
                 listHtml += `<div class="siswa-list-item">
-                    <div class="siswa-info"><div class="nama-siswa">${escapeHtml(s.nama)}</div></div>
-                    <div class="nilai-display" style="color:${nColor}">${nTxt}<span style="font-size:10px;vertical-align:super">${nH}</span></div>
-                    <div class="status-badge ${stClass}">${stText}</div>
-                    <button class="btn-action btn-nilai" onclick='bukaModalNilai("${s.docId}","${escapeHtml(s.nama)}",${nJson})'>${hasNilai ? '✏️ Edit' : '📝 Nilai'}</button>
-                    ${hasNilai && !isTerkirim ? `<button class="btn-action btn-kirim" onclick='kirimNilaiAkhir("${s.docId}","${escapeHtml(s.nama)}")'>📧 Kirim</button>` : ''}
-                    <button class="btn-action btn-hapus" onclick='hapusSiswa("${s.docId}","${escapeHtml(s.nama)}")'>🗑️</button>
+                    <div class="siswa-info"><div class="nama-siswa">${escapeHtml(s.nama)}</div><span class="status-badge ${stClass}">${stText}</span></div>
+                    <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
+                        <span class="nilai-display" style="color:${nColor}">${nTxt}${nH?'<sub style="font-size:10px">'+nH+'</sub>':''}</span>
+                        <button class="btn-action btn-cetak-id" onclick="cetakIdPerSiswa('${s.docId}','${escapeHtml(s.nama)}','${kelas}')" title="Cetak ID Card">🪪</button>
+                        <button class="btn-action btn-nilai" onclick='bukaModalNilai("${s.docId}","${escapeHtml(s.nama)}",${hasNilai ? `{angka:${s.nilai_angka},predikat:"${escapeHtml(s.predikat||'')}",aspek:"${escapeHtml(s.aspek||'')}",catatan:"${escapeHtml((s.catatan||'').replace(/"/g,'\\"'))}"}` : 'null'})' title="Input Nilai">📝</button>
+                        ${hasNilai && !isTerkirim ? `<button class="btn-action btn-kirim" onclick="kirimNilaiAkhir('${s.docId}','${escapeHtml(s.nama)}')" title="Kirim Nilai">📧</button>` : ''}
+                        <button class="btn-action btn-hapus" onclick="hapusSiswa('${s.docId}','${escapeHtml(s.nama)}')" title="Hapus Siswa">🗑️</button>
+                    </div>
                 </div>`;
             });
-            document.getElementById('listSiswaGuru').innerHTML = listHtml || '<p style="text-align:center;color:#999;font-weight:700;padding:20px 0;">Tidak ada data.</p>';
-            
-            // Render Upload History
-            renderUploadHistory();
-        }
-
-        // ==================== UPLOAD FOTO (BERKALI-KALI) ====================
-        const uploadArea = document.getElementById('uploadArea');
-        uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
-        uploadArea.addEventListener('dragleave', () => { uploadArea.classList.remove('dragover'); });
-        uploadArea.addEventListener('drop', (e) => { e.preventDefault(); uploadArea.classList.remove('dragover'); previewFiles({target: {files: e.dataTransfer.files}}); });
-
-        async function previewFiles(e) {
-            selectedFiles = [];
-            document.getElementById('uploadPreview').innerHTML = '';
-            const files = Array.from(e.target.files).slice(0, 4);
-            if(!files.length) return;
-            for(let file of files) { const b = await compressImage(file); selectedFiles.push(b); document.getElementById('uploadPreview').innerHTML += `<img src="${b}">`; }
-        }
-
-        async function uploadFotoGuru() {
-            const hari = document.getElementById('hariUploadGuru').value;
-            const ket = document.getElementById('ketUploadGuru').value.trim();
-            if(!ket) return showToast("Isi keterangan kegiatan dulu ya! 📝");
-            if(!selectedFiles.length) return showToast("Pilih foto dulu! 📷");
-            const btn = document.querySelector('.btn-guru-upload'); btn.disabled = true; btn.innerText = "⏳ Mengupload...";
-            try {
-                // Ambil array lama, tambah yang baru
-                const docRef = db.collection('guru_mpls').doc(dataSekarang.docId);
-                const docSnap = await docRef.get();
-                let logArr = docSnap.exists && docSnap.data().upload_log ? docSnap.data().upload_log : [];
-                logArr.push({ hari: parseInt(hari), keterangan: ket, fotos: selectedFiles, waktu: firebase.firestore.FieldValue.serverTimestamp() });
-                await docRef.update({ upload_log: logArr });
-                showToast(`Foto Hari ${hari} berhasil ditambahkan! 🎉`);
-                selectedFiles = []; document.getElementById('uploadPreview').innerHTML = ''; document.getElementById('fileInput').value = ''; document.getElementById('ketUploadGuru').value = '';
-                muatDataGuru();
-            } catch(err) { showToast("Gagal: " + err.message); }
-            btn.disabled = false; btn.innerText = "☁️ TAMBAH UPLOAD KE FIREBASE";
-        }
-
-        async function renderUploadHistory() {
-            const docSnap = await db.collection('guru_mpls').doc(dataSekarang.docId).get();
-            const container = document.getElementById('uploadHistoryContainer');
-            if(!docSnap.exists || !docSnap.data().upload_log || !docSnap.data().upload_log.length) { container.innerHTML = '<p style="text-align:center;color:#bbb;font-size:12px;font-weight:700;margin-top:8px;">Belum ada riwayat upload.</p>'; return; }
-            let html = '<h4 style="font-size:14px;font-weight:800;color:#555;margin-bottom:8px;">📁 Riwayat Upload</h4>';
-            const logs = docSnap.data().upload_log;
-            for(let i = logs.length - 1; i >= 0; i--) {
-                const l = logs[i];
-                html += `<div class="upload-history-item">
-                    <button class="uh-del" onclick="hapusUploadLog(${i})">✕ Hapus</button>
-                    <div class="uh-hari">Hari ${l.hari}</div>
-                    <div class="uh-ket">${escapeHtml(l.keterangan)}</div>
-                    <div class="uh-fotos">${l.fotos.map(f=>`<img src="${f}">`).join('')}</div>
-                </div>`;
-            }
-            container.innerHTML = html;
-        }
-
-        async function hapusUploadLog(index) {
-            if(!confirm("Hapus upload foto ini?")) return;
-            const docRef = db.collection('guru_mpls').doc(dataSekarang.docId);
-            const docSnap = await docRef.get();
-            let logArr = docSnap.data().upload_log;
-            logArr.splice(index, 1);
-            await docRef.update({ upload_log: logArr });
-            showToast("Upload foto dihapus! 🗑️");
-            muatDataGuru();
+            document.getElementById('listSiswaGuru').innerHTML = listHtml || '<div class="no-upload-msg"><span>📋</span>Belum ada siswa terdaftar di kelas ini.</div>';
         }
 
         // ==================== FITUR SISWA ====================
         async function prosesMasukSiswa(e) {
             e.preventDefault();
-            const btn = document.getElementById('btnSubmitSiswa');
             const nama = document.getElementById('namaSiswa').value.trim(), kelas = document.getElementById('kelasSiswa').value;
             if(!nama || !kelas) return showToast("Isi Nama dan Kelas!");
-            btn.disabled = true; btn.innerText = "⏳ Mencek...";
+            const btn = document.getElementById('btnSubmitSiswa');
             const snap = await db.collection('peserta_mpls').where('nama', '==', nama).where('kelas', '==', kelas).get();
-            if(!snap.empty) { dataSekarang = { docId: snap.docs[0].id, kelas, role: 'siswa' }; masukDashboardSiswa(nama, kelas); }
-            else { document.getElementById('boxPersetujuan').classList.remove('hidden'); btn.innerText = "✅ SETUJUI & DAFTAR"; btn.disabled = false; document.getElementById('formSiswa').onsubmit = function(ev) { ev.preventDefault(); daftarSiswa(nama, kelas); }; }
+            if(!snap.empty) {
+                dataSekarang = { docId: snap.docs[0].id, kelas, role: 'siswa', namaSiswa: nama };
+                masukDashboardSiswa(nama, kelas, snap.docs[0].data());
+            } else {
+                document.getElementById('boxPersetujuan').classList.remove('hidden');
+                if(!document.getElementById('cek1').checked || !document.getElementById('cek2').checked) {
+                    showToast("Centang kedua persetujuan terlebih dahulu!");
+                    return false;
+                }
+                btn.disabled = true; btn.innerText = "⏳ Mendaftarkan...";
+                try {
+                    const ref = await db.collection('peserta_mpls').add({ nama, kelas, setuju1: true, setuju2: true, waktu_daftar: firebase.firestore.FieldValue.serverTimestamp() });
+                    dataSekarang = { docId: ref.id, kelas, role: 'siswa', namaSiswa: nama };
+                    showToast("Pendaftaran berhasil! Selamat datang! 🎉");
+                    masukDashboardSiswa(nama, kelas, { nama, kelas });
+                } catch(err) { showToast("Gagal: " + err.message); btn.disabled = false; btn.innerText = "🚀 MASUK"; }
+            }
             return false;
         }
-        async function daftarSiswa(nama, kelas) {
-            const btn = document.getElementById('btnSubmitSiswa');
-            if(!document.getElementById('cek1').checked || !document.getElementById('cek2').checked) return showToast("Centang kedua persetujuan dulu!");
-            btn.disabled = true; btn.innerText = "⏳ Mendaftarkan...";
-            try { const ref = await db.collection('peserta_mpls').add({ nama, kelas, waktu_daftar: firebase.firestore.FieldValue.serverTimestamp() }); dataSekarang = { docId: ref.id, kelas, role: 'siswa' }; showToast("Pendaftaran berhasil! 🎊"); masukDashboardSiswa(nama, kelas); launchConfetti(); }
-            catch(err) { showToast("Gagal: " + err.message); btn.disabled = false; btn.innerText = "✅ SETUJUI & DAFTAR"; }
-        }
 
-        async function masukDashboardSiswa(nama, kelas) {
-            document.getElementById('areaLoginSiswa').classList.add('hidden'); document.getElementById('areaDashboardSiswa').classList.remove('hidden');
-            document.getElementById('namaTampilSiswa').innerText = nama; document.getElementById('badgeKelasSiswa').innerText = "Kelas " + kelas + " · " + kegiatanMPLS[kelas].judul;
-            renderSiswaView(); window.scrollTo({top:0, behavior:'smooth'});
-        }
-
-        async function renderSiswaView() {
-            const kelas = dataSekarang.kelas;
-            const snapGuru = await db.collection('guru_mpls').where('kelas', '==', kelas).get();
-            let guruData = null;
-            if(!snapGuru.empty) { const doc = await snapGuru.docs[0].ref.get(); guruData = doc.data(); }
-            const docSiswa = await db.collection('peserta_mpls').doc(dataSekarang.docId).get();
-            let ceklisData = docSiswa.exists ? docSiswa.data() : {};
-
-            // Tampilkan Nilai Final
-            const nilaiEl = document.getElementById('nilaiTotalSiswa');
-            if(ceklisData.nilai_dikirim && ceklisData.nilai_angka !== undefined) {
-                let c = ceklisData.nilai_angka>=80?'#2E7D32':(ceklisData.nilai_angka>=60?'#F57F17':'#D32F2F');
-                nilaiEl.innerHTML = `<div class="nilai-final-box">
-                    <h3>⭐ Nilai Akhir MPLS Kamu</h3>
-                    <div><span class="nilai-final-angka" style="color:${c}">${ceklisData.nilai_angka}</span><span class="nilai-final-huruf">${ceklisData.nilai_huruf}</span></div>
-                    <div class="nilai-final-predikat">Predikat: ${escapeHtml(ceklisData.predikat || '-')}</div>
-                    <div class="nilai-final-predikat" style="font-size:12px;color:#888;">Aspek: ${escapeHtml(ceklisData.aspek || '-')}</div>
-                    ${ceklisData.catatan ? `<div class="nilai-final-catatan">💬 "${escapeHtml(ceklisData.catatan)}"</div>` : ''}
+        function masukDashboardSiswa(nama, kelas, data) {
+            document.getElementById('areaLoginSiswa').classList.add('hidden');
+            document.getElementById('areaDashboardSiswa').classList.remove('hidden');
+            document.getElementById('namaTampilSiswa').innerText = nama;
+            document.getElementById('badgeKelasSiswa').innerText = "Kelas " + kelas;
+            
+            // Tampilkan nilai jika sudah dikirim
+            const nArea = document.getElementById('nilaiTotalSiswa');
+            if(data.nilai_dikirim && data.nilai_angka !== undefined && data.nilai_angka !== null) {
+                nArea.innerHTML = `<div class="nilai-final-box" style="margin-top:10px;">
+                    <h3>Nilai MPLS Kamu</h3>
+                    <span class="nilai-final-angka">${data.nilai_angka}</span>
+                    <span class="nilai-final-huruf">${data.nilai_huruf||''}</span>
+                    <div class="nilai-final-predikat">Predikat: ${data.predikat||'-'}</div>
+                    ${data.catatan ? `<div class="nilai-final-catatan">"${escapeHtml(data.catatan)}"</div>` : ''}
                 </div>`;
+                triggerConfetti();
             } else {
-                nilaiEl.innerHTML = '<div class="nilai-siswa-badge belum">⏳ Nilai akhir belum dikirim guru</div>';
+                nArea.innerHTML = `<div class="nilai-siswa-badge belum">⏳ Nilai belum tersedia</div>`;
             }
-
-            // Kelompokkan foto per hari dari upload_log
-            let fotosPerHari = {1:[], 2:[], 3:[], 4:[], 5:[]};
-            let ketPerHari = {1:'', 2:'', 3:'', 4:'', 5:''};
-            if(guruData && guruData.upload_log) {
-                guruData.upload_log.forEach(log => {
-                    const h = log.hari;
-                    if(fotosPerHari[h]) {
-                        log.fotos.forEach(f => fotosPerHari[h].push(f));
-                        if(log.keterangan) ketPerHari[h] += (ketPerHari[h] ? ' | ' : '') + log.keterangan;
-                    }
-                });
-            }
-
-            const hariIcons = ["", "☀️", "🌈", "🌤️", "⛅", "🎄"];
-            for(let h=1; h<=5; h++) {
-                let container = document.getElementById(`shari${h}`);
-                let fotos = fotosPerHari[h];
-                let jadwal = kegiatanMPLS[kelas][h];
-                let html = `<h2>${hariIcons[h]} Hari ${h}</h2>`;
+            
+            // Render jadwal per hari
+            for(let h=1;h<=5;h++) {
+                const el = document.getElementById('shari'+h);
+                const jadwal = kegiatanMPLS[kelas][h] || [];
+                let html = `<div style="font-size:13px;font-weight:800;color:${kegiatanMPLS[kelas].warna};margin-bottom:10px;">${kegiatanMPLS[kelas].judul}</div>`;
                 
-                if(fotos.length > 0) {
-                    // Duplikat array agar loop CSS mulus tanpa lompatan
-                    let allFotos = [...fotos, ...fotos];
-                    html += `<div class="slideshow-container">
-                        <div class="slide-track">${allFotos.map(f=>`<img src="${f}">`).join('')}</div>
-                        <div class="slideshow-overlay">
-                            <div class="kegiatan-text">${escapeHtml(ketPerHari[h] || 'Dokumentasi Kegiatan')}</div>
-                            <div class="hari-text">📸 ${fotos.length} foto · Hari ${h}</div>
-                        </div>
-                    </div>`;
-                } else {
-                    html += `<div class="no-upload-msg"><span>📭</span>Guru belum mengupload foto untuk hari ini.</div>`;
-                }
+                // Slideshow foto
+                html += `<div class="slideshow-container" id="slide_s_h${h}"><div class="no-upload-msg"><span>📷</span>Foto kegiatan Hari ${h} belum diupload</div></div>`;
 
-                html += `<div style="margin-top:15px; font-size:13px;"><h4 style="color:#FF6B6B; font-size:14px; font-weight:800;">📋 Jadwal Kegiatan</h4>`;
-                jadwal.forEach(item => { html += `<div class="jadwal-item"><span class="jadwal-time">${item.w}</span>${item.k}</div>`; });
-                html += `</div>`;
-
-                html += `<div class="checklist-box"><h4>✅ Ceklis Kehadiran Hari ${h}</h4>`;
-                jadwal.forEach((item, idx) => {
-                    let id = `h${h}_${idx}`, checked = ceklisData[id] ? 'checked' : '';
-                    html += `<div class="check-item"><input type="checkbox" id="${id}" ${checked} onchange="simpanCeklisSiswa()"><label for="${id}">${item.k}</label></div>`;
+                // Jadwal
+                jadwal.forEach((j,i) => {
+                    const checked = data[`h${h}_${i}`] ? 'checked' : '';
+                    html += `<div class="jadwal-item"><span class="jadwal-time">${j.w}</span>${j.k}</div>`;
                 });
-                html += `<div class="saving-indicator" id="statusSave${h}">Status: Siap</div></div>`;
-                container.innerHTML = html;
+
+                // Checklist
+                if(jadwal.length > 0) {
+                    html += `<div class="checklist-box"><h4>✅ Checklist Kehadiran Hari ${h}</h4>`;
+                    jadwal.forEach((j,i) => {
+                        const checked = data[`h${h}_${i}`] ? 'checked' : '';
+                        html += `<div class="check-item"><input type="checkbox" ${checked} onchange="updateChecklist(${h},${i},this.checked)"><label>${j.k}</label></div>`;
+                    });
+                    html += `<div class="saving-indicator" id="saveInd_s_h${h}"></div></div>`;
+                }
+                el.innerHTML = html;
+            }
+
+            // Muat foto dari upload guru
+            muatFotoSiswa(kelas);
+            window.scrollTo({top:0, behavior:'smooth'});
+        }
+
+        async function muatFotoSiswa(kelas) {
+            const snap = await db.collection('guru_mpls').where('kelas', '==', kelas).get();
+            if(snap.empty) return;
+            const guru = snap.docs[0].data();
+            if(!guru.upload_log) return;
+
+            guru.upload_log.forEach(log => {
+                const h = log.hari;
+                const el = document.getElementById('slide_s_h'+h);
+                if(!el || !log.fotos || log.fotos.length === 0) return;
+                
+                let imgsHtml = '';
+                // Duplikat foto agar loop mulus
+                const allFotos = [...log.fotos, ...log.fotos];
+                allFotos.forEach(f => { imgsHtml += `<img src="${f}" alt="Kegiatan">`; });
+                
+                el.innerHTML = `<div class="slide-track" style="animation-duration:${allFotos.length * 4}s">${imgsHtml}</div>
+                    <div class="slideshow-overlay">
+                        <div class="kegiatan-text">${escapeHtml(log.keterangan || '')}</div>
+                        <div class="hari-text">Hari ${h} MPLS 2026</div>
+                    </div>`;
+            });
+        }
+
+        let saveTimeout = null;
+        async function updateChecklist(hari, idx, val) {
+            const field = `h${hari}_${idx}`;
+            const indEl = document.getElementById(`saveInd_s_h${hari}`);
+            if(indEl) indEl.innerText = "⏳ Menyimpan...";
+            
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(async () => {
+                try {
+                    await db.collection('peserta_mpls').doc(dataSekarang.docId).update({ [field]: val });
+                    if(indEl) indEl.innerText = "✅ Tersimpan";
+                    setTimeout(() => { if(indEl) indEl.innerText = ''; }, 2000);
+                } catch(err) { if(indEl) indEl.innerText = "❌ Gagal"; showToast("Gagal menyimpan: " + err.message); }
+            }, 600);
+        }
+
+        function gantiHariSiswa(e, id) {
+            document.querySelectorAll('#navSiswa button').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            document.querySelectorAll('.content-hari').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function logoutSiswa() { dataSekarang = { docId: null, kelas: null, role: null, namaSiswa: null }; document.getElementById('areaDashboardSiswa').classList.add('hidden'); document.getElementById('areaLoginSiswa').classList.remove('hidden'); document.getElementById('boxPersetujuan').classList.add('hidden'); document.getElementById('btnSubmitSiswa').disabled = false; document.getElementById('btnSubmitSiswa').innerText = "🚀 MASUK"; window.scrollTo({top:0,behavior:'smooth'}); }
+        function logoutGuru() { dataSekarang = { docId: null, kelas: null, role: null }; document.getElementById('areaDashboardGuru').classList.add('hidden'); document.getElementById('areaLoginGuru').classList.remove('hidden'); document.getElementById('btnSubmitGuru').disabled = false; document.getElementById('btnSubmitGuru').innerText = "🔑 MASUK SEBAGAI GURU"; window.scrollTo({top:0,behavior:'smooth'}); }
+
+        // ==================== UPLOAD GURU ====================
+        function previewFiles(e) {
+            const files = Array.from(e.target.files);
+            selectedFiles = selectedFiles.concat(files).slice(0, 4);
+            const prev = document.getElementById('uploadPreview');
+            prev.innerHTML = '';
+            selectedFiles.forEach((f,i) => {
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    const img = document.createElement('img');
+                    img.src = ev.target.result;
+                    prev.appendChild(img);
+                }
+                reader.readAsDataURL(f);
+            });
+        }
+
+        // Drag & drop
+        const uploadArea = document.getElementById('uploadArea');
+        if(uploadArea) {
+            uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+            uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+            uploadArea.addEventListener('drop', e => {
+                e.preventDefault(); uploadArea.classList.remove('dragover');
+                const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+                selectedFiles = selectedFiles.concat(files).slice(0, 4);
+                const prev = document.getElementById('uploadPreview');
+                prev.innerHTML = '';
+                selectedFiles.forEach(f => {
+                    const reader = new FileReader();
+                    reader.onload = ev => { const img = document.createElement('img'); img.src = ev.target.result; prev.appendChild(img); };
+                    reader.readAsDataURL(f);
+                });
+            });
+        }
+
+        async function uploadFotoGuru() {
+            const hari = document.getElementById('hariUploadGuru').value;
+            const ket = document.getElementById('ketUploadGuru').value.trim();
+            if(!ket) return showToast("Isi keterangan kegiatan!");
+            if(selectedFiles.length === 0) return showToast("Pilih minimal 1 foto!");
+            
+            const btn = event.target; btn.disabled = true; btn.innerText = "⏳ Memproses & Mengupload...";
+            
+            try {
+                const compressed = await Promise.all(selectedFiles.map(f => compressImage(f)));
+                const docRef = db.collection('guru_mpls').doc(dataSekarang.docId);
+                await docRef.update({
+                    upload_log: firebase.firestore.FieldValue.arrayUnion({
+                        hari: parseInt(hari), keterangan: ket, fotos: compressed, waktu: firebase.firestore.FieldValue.serverTimestamp()
+                    })
+                });
+                showToast("Foto berhasil diupload! 🎉");
+                selectedFiles = [];
+                document.getElementById('uploadPreview').innerHTML = '';
+                document.getElementById('ketUploadGuru').value = '';
+                document.getElementById('fileInput').value = '';
+                muatUploadHistory();
+            } catch(err) { showToast("Gagal upload: " + err.message); }
+            btn.disabled = false; btn.innerText = "☁️ TAMBAH UPLOAD KE FIREBASE";
+        }
+
+        async function muatUploadHistory() {
+            const doc = await db.collection('guru_mpls').doc(dataSekarang.docId).get();
+            const data = doc.data();
+            if(!data.upload_log || data.upload_log.length === 0) {
+                document.getElementById('uploadHistoryContainer').innerHTML = '';
+                return;
+            }
+            let html = '<div style="font-size:13px;font-weight:800;color:#555;margin-top:16px;margin-bottom:8px;">📁 Riwayat Upload</div>';
+            data.upload_log.slice().reverse().forEach((log, ri) => {
+                const realIdx = data.upload_log.length - 1 - ri;
+                html += `<div class="upload-history-item">
+                    <button class="uh-del" onclick="hapusUpload(${realIdx})">HAPUS</button>
+                    <div class="uh-hari">Hari ${log.hari}</div>
+                    <div class="uh-ket">${escapeHtml(log.keterangan)}</div>
+                    <div class="uh-fotos">${log.fotos.map(f => `<img src="${f}" alt="foto">`).join('')}</div>
+                </div>`;
+            });
+            document.getElementById('uploadHistoryContainer').innerHTML = html;
+        }
+
+        async function hapusUpload(idx) {
+            if(!confirm("Hapus upload ini?")) return;
+            const doc = await db.collection('guru_mpls').doc(dataSekarang.docId).get();
+            const logs = doc.data().upload_log;
+            logs.splice(idx, 1);
+            await db.collection('guru_mpls').doc(dataSekarang.docId).update({ upload_log: logs });
+            showToast("Upload berhasil dihapus!");
+            muatUploadHistory();
+        }
+
+        // Override masukDashboardGuru untuk juga muat upload history
+        const _origMasukGuru = masukDashboardGuru;
+        masukDashboardGuru = function(nama, kelas) {
+            _origMasukGuru(nama, kelas);
+            muatUploadHistory();
+        };
+
+        // ==================== CONFETTI ====================
+        function triggerConfetti() {
+            const colors = ['#FF6B6B','#FFD166','#06D6A0','#118AB2','#AB47BC','#FF8E53'];
+            for(let i=0;i<40;i++) {
+                const el = document.createElement('div');
+                el.className = 'confetti-piece';
+                el.style.left = Math.random()*100+'vw';
+                el.style.top = '-10px';
+                el.style.background = colors[Math.floor(Math.random()*colors.length)];
+                el.style.width = (Math.random()*8+6)+'px';
+                el.style.height = (Math.random()*8+6)+'px';
+                el.style.borderRadius = Math.random()>0.5?'50%':'2px';
+                el.style.animationDuration = (Math.random()*2+2)+'s';
+                el.style.animationDelay = (Math.random()*1)+'s';
+                document.body.appendChild(el);
+                setTimeout(()=>el.remove(), 4000);
             }
         }
-
-        function simpanCeklisSiswa() {
-            if(!dataSekarang.docId) return;
-            const kelas = dataSekarang.kelas;
-            document.querySelectorAll('.saving-indicator').forEach(el => { el.innerText = "Menyimpan..."; el.style.color = "#FF8E53"; });
-            let d = {};
-            for(let h=1;h<=5;h++) { kegiatanMPLS[kelas][h].forEach((k,i) => { d[`h${h}_${i}`] = document.getElementById(`h${h}_${i}`).checked; }); }
-            db.collection('peserta_mpls').doc(dataSekarang.docId).update(d)
-            .then(() => { document.querySelectorAll('.saving-indicator').forEach(el => { el.innerText = "Tersimpan ✓"; el.style.color = "#66BB6A"; }); })
-            .catch(err => showToast("Gagal menyimpan 😢"));
-        }
-
-        function gantiHariSiswa(evt, hariId) {
-            document.querySelectorAll('#areaDashboardSiswa .content-hari').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('#navSiswa button').forEach(el => el.classList.remove('active'));
-            document.getElementById(hariId).classList.add('active'); evt.currentTarget.classList.add('active');
-        }
-
-        function launchConfetti() {
-            const colors = ['#FF6B6B','#FFD166','#06D6A0','#118AB2','#FF8E53','#EF476F','#8338EC'];
-            for(let i=0;i<40;i++) { const p=document.createElement('div');p.className='confetti-piece';p.style.left=Math.random()*100+'vw';p.style.top='-10px';p.style.background=colors[Math.floor(Math.random()*colors.length)];p.style.animationDuration=(Math.random()*2+2)+'s';p.style.animationDelay=(Math.random()*0.8)+'s';document.body.appendChild(p);setTimeout(()=>p.remove(),4000); }
-        }
-
-        function logoutSiswa() { dataSekarang={docId:null,kelas:null,role:null}; document.getElementById('areaDashboardSiswa').classList.add('hidden'); document.getElementById('areaLoginSiswa').classList.remove('hidden'); document.getElementById('namaSiswa').value=''; document.getElementById('kelasSiswa').value=''; document.getElementById('boxPersetujuan').classList.add('hidden'); const btn=document.getElementById('btnSubmitSiswa');btn.disabled=false;btn.innerText="🚀 MASUK"; document.getElementById('formSiswa').onsubmit=(e)=>prosesMasukSiswa(e); showToast("Sampai jumpa! 👋"); window.scrollTo({top:0,behavior:'smooth'}); }
-        function logoutGuru() { dataSekarang={docId:null,kelas:null,role:null}; document.getElementById('areaDashboardGuru').classList.add('hidden'); document.getElementById('areaLoginGuru').classList.remove('hidden'); document.getElementById('namaGuru').value=''; document.getElementById('kelasGuru').value=''; const btn=document.getElementById('btnSubmitGuru');btn.disabled=false;btn.innerText="🔑 MASUK SEBAGAI GURU"; document.getElementById('formGuru').onsubmit=(e)=>prosesMasukGuru(e); showToast("Sampai jumpa Bu/Pak! 👋"); window.scrollTo({top:0,behavior:'smooth'}); }
-        
-        document.addEventListener('keydown', function(e) { if(e.key === 'Escape') tutupModalNilai(); });
     </script>
 </body>
 </html>
